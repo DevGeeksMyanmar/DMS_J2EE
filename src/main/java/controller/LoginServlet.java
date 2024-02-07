@@ -50,14 +50,12 @@ public class LoginServlet extends HttpServlet {
 		}
 		
 		
-		
-		
-		
 		try {
 
 			boolean isValid = userDAO.validateUser(email,password);
 			
 			if(isValid) {
+				session.setAttribute("login_status", "true");
 				response.sendRedirect("home.jsp");
 			}else {
 				//login fail

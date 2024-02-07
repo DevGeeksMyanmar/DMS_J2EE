@@ -2,6 +2,12 @@
 	
 <%@ include file="../layout/sidenav.jsp" %>
 
+<% 
+    Object loginStatusObj = session.getAttribute("login_status");
+    if (loginStatusObj == null || loginStatusObj.equals("false")) {
+    	 response.sendRedirect("login.jsp");
+    }
+%>
 
 <!-- Main content -->
 <div class="p-4 sm:ml-64">

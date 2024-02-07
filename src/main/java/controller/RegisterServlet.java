@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dao.StudentDAO;
 import dao.UserDAO;
@@ -44,8 +45,9 @@ public class RegisterServlet extends HttpServlet {
 		String password = request.getParameter("password");
 		String confirm_password = request.getParameter("confirm_password");
 		String hashed_password = Hash.hashPassword(password);
-		request.getSession().setAttribute("hashed_password", hashed_password);
+		
 		RequestDispatcher dispatcher = null;
+		HttpSession session = request.getSession();
 		
 		if(name == null || name.equals("")) {
 			request.setAttribute("status","invalidName");
@@ -79,6 +81,7 @@ public class RegisterServlet extends HttpServlet {
 	    	newUser.setHashed_password(hashed_password);
 	    	
 	    	userDAO.createUser(newUser);
+	    	session.setAttribute("login_status", "true");
 	    	response.sendRedirect("home.jsp");
 		}
 		catch(Exception e){
