@@ -1,4 +1,4 @@
-<%@ include file="../views/header.jsp" %>
+<%@ include file="../layout/header.jsp" %>
 	
 <form action="register" method="post" class="max-w-sm mx-auto" >
 	<input type="hidden" id="status" value="<%= request.getAttribute("status") %>" />
@@ -54,6 +54,6 @@
 	}
 </script>
 
-<%@ include file="../views/footer.jsp" %>
+<%@ include file="../layout/footer.jsp" %>
 
 

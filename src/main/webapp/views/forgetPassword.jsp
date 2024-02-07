@@ -1,4 +1,4 @@
-<%@ include file="./header.jsp" %>
+<%@ include file="../layout/header.jsp" %>
 	<h2>Forgot your password?</h2>
 	<p>Change your password in three easy steps. This will help you to secure your password!</p>
 	<div>
@@ -25,4 +25,4 @@
       	</a>
       </div>  
 </form>
-<%@ include file="./footer.jsp" %>
+<%@ include file="../layout/footer.jsp" %>

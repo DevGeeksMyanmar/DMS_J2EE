@@ -1,4 +1,4 @@
-<%@ include file="./header.jsp" %>
+<%@ include file="../layout/header.jsp" %>
 	
 	
 <form class="max-w-sm mx-auto" action="login" method="post" >
@@ -47,7 +47,7 @@
 		swal("Sorry","Reset Fail ","error");
 	}
 </script>
-<%@ include file="./footer.jsp" %>
+<%@ include file="../layout/footer.jsp" %>
 
     
 
