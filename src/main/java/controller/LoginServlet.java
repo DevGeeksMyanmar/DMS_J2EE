@@ -56,7 +56,19 @@ public class LoginServlet extends HttpServlet {
 			
 			if(isValid) {
 				session.setAttribute("login_status", "true");
-				response.sendRedirect("home.jsp");
+				String role = userDAO.getRole(email);
+				
+				if(role.equals("shop")) {
+					session.setAttribute("role", "shop");
+					response.sendRedirect("/DMS/views/shop/home.jsp");
+				}else if(role.equals("admin")) {
+					session.setAttribute("role", "admin");
+					response.sendRedirect("/DMS/views/admin/home.jsp");
+				}else if(role.equals("driver")) {
+					session.setAttribute("role", "driver");
+					response.sendRedirect("/DMS/views/driver/home.jsp");
+				}
+				
 			}else {
 				//login fail
 				dispatcher = request.getRequestDispatcher("login.jsp");

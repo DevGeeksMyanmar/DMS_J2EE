@@ -7,6 +7,7 @@ public class User implements Serializable {
     
 private String name;
 private String email;
+private String role;
 private String hashed_password;
 
 public String getName() {
@@ -28,6 +29,12 @@ public String getHashed_password() {
 }
 public void setHashed_password(String hashed_password) {
 	this.hashed_password = hashed_password;
+}
+public String getRole() {
+	return role;
+}
+public void setRole(String role) {
+	this.role = role;
 }
 
 

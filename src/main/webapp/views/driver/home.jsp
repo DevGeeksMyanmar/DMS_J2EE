@@ -1,12 +1,15 @@
-<%@ include file="../layout/header.jsp" %>
+<%@ include file="../../layout/header.jsp" %>
 	
-<%@ include file="../layout/sidenav.jsp" %>
+<%@ include file="../../layout/driver_sidenav.jsp" %>
 
 <% 
-    Object loginStatusObj = session.getAttribute("login_status");
-    if (loginStatusObj == null || loginStatusObj.equals("false")) {
-    	 response.sendRedirect("login.jsp");
-    }
+Object loginStatusObj = session.getAttribute("login_status");
+Object role = session.getAttribute("role");
+if (loginStatusObj == null || loginStatusObj.equals("false")) {
+	 response.sendRedirect("/DMS/views/login.jsp");
+}else if(!(role.equals("driver"))){
+	response.sendRedirect("/DMS/views/login.jsp");
+}
 %>
 
 <!-- Main content -->
@@ -114,4 +117,4 @@
 
 
 
-<%@ include file="../layout/footer.jsp" %>
+<%@ include file="../../layout/footer.jsp" %>

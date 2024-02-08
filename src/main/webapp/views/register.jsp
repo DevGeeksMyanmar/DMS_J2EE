@@ -5,7 +5,7 @@
 <div class="p-5 shadow max-w-sm rounded-md mx-auto mt-10 md:mt-20 bg-white">
 <img src="../images/deli_logo.png" class="w-40 h-40 mx-auto" alt="" />
 
-<form class=" mx-auto" action="register" method="post" >
+<form class=" mx-auto px-1" action="register" method="post" >
 	<input type="hidden" id="status" value="<%= request.getAttribute("status") %>" />
    <div class="mb-4">
         <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Name</label>
@@ -22,6 +22,14 @@
 	    </div>
 	    <input type="email" id="email" name="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter your email" >
 	  </div>
+	  
+		<label for="role" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select role</label>
+		<select name="role" id="role" class="mb-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+		  <option disabled selected>Choose account type</option>
+		  <option value="shop">shop</option>
+		  <option value="driver">driver</option>
+		</select>
+			  
      <div class="mb-4">
         <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
         <input type="password" name="password" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter your password" >
@@ -35,10 +43,18 @@
 </div>
 
 	   <% 
-    Object loginStatusObj = session.getAttribute("login_status");
-    if (loginStatusObj != null && loginStatusObj.equals("true")) {
-    	 response.sendRedirect("home.jsp");
-    }
+	   Object loginStatusObj = session.getAttribute("login_status");
+		Object role = session.getAttribute("role");
+	    if (loginStatusObj != null && loginStatusObj.equals("true")) {
+	    	if(role.equals("admin")){
+	    		response.sendRedirect("/DMS/views/admin/home.jsp");
+	    	}else if(role.equals("shop")){
+	    		response.sendRedirect("/DMS/views/shop/home.jsp");
+	    	}else if(role.equals("driver")){
+	    		response.sendRedirect("/DMS/views/driver/home.jsp");
+	    	}
+	    	 
+	    }
 %>
 
 <script type="text/javascript">
@@ -60,6 +76,9 @@
 	}
 	if(status == "invalidEmail"){
 		swal("Sorry","Please Enter Email","error");
+	}
+	if(status == "invalidRole"){
+		swal("Sorry","Please Select account type","error");
 	}
 </script>
 

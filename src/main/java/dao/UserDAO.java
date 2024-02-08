@@ -21,12 +21,17 @@ PreparedStatement preparedStatement = null;
 
 public void createUser(User user) {
 	try {
-		String sql = "INSERT INTO users(name, email, hashed_password) VALUES (?,?,?)";
+		String sql = "INSERT INTO users(name, email,role, hashed_password) VALUES (?,?,?,?)";
 		connection = DBConnection.openConnection();
 		preparedStatement = 	connection.prepareStatement(sql);
 		preparedStatement.setString(1, user.getName());
 		preparedStatement.setString(2, user.getEmail());
-		preparedStatement.setString(3, user.getHashed_password());
+		if(user.getRole().equals("shop") || user.getRole().equals("driver")) {
+		    preparedStatement.setString(3, user.getRole());
+		}else {
+			preparedStatement.setString(3,"shop");
+		}
+		preparedStatement.setString(4, user.getHashed_password());
 		preparedStatement.executeUpdate();
 	}catch(SQLException ex) {
 		ex.printStackTrace();
@@ -120,5 +125,42 @@ public boolean validateUser(String email, String password) {
     return isValid;
 }
 
+public String getRole(String email) {
+	String role = null;
+	
+	PreparedStatement pstmt = null;
+    ResultSet rs = null;
+    try {
+        // Establish the connection
+    	connection = DBConnection.openConnection();
+
+        // Prepare the statement
+        String sql = "SELECT role FROM users WHERE email = ?";
+        pstmt = connection.prepareStatement(sql);
+        pstmt.setString(1, email);
+        
+
+        // Execute the query
+        rs = pstmt.executeQuery();
+
+        // Process the result set
+        if (rs.next()) {
+        	role = rs.getString("role");
+        }
+    } catch (SQLException e) {
+        // Handle the exception
+        e.printStackTrace();
+    } finally {
+        // Close the resources
+        try {
+            if (rs != null) rs.close();
+            if (pstmt != null) pstmt.close();
+            if (connection != null) connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    return role;
 }
 
+}

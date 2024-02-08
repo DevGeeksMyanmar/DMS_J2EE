@@ -42,6 +42,7 @@ public class RegisterServlet extends HttpServlet {
     	
 		String name = request.getParameter("username");
 		String email = request.getParameter("email");
+		String role = request.getParameter("role");
 		String password = request.getParameter("password");
 		String confirm_password = request.getParameter("confirm_password");
 		String hashed_password = Hash.hashPassword(password);
@@ -56,6 +57,11 @@ public class RegisterServlet extends HttpServlet {
 		}
 		if(email == null || email.equals("")) {
 			request.setAttribute("status","invalidEmail");
+			dispatcher = request.getRequestDispatcher("register.jsp");
+			dispatcher.forward(request, response);
+		}
+		if(role == null || role.equals("")) {
+			request.setAttribute("status","invalidRole");
 			dispatcher = request.getRequestDispatcher("register.jsp");
 			dispatcher.forward(request, response);
 		}
@@ -78,11 +84,22 @@ public class RegisterServlet extends HttpServlet {
 			User newUser = new User();
 	    	newUser.setName(name);
 	    	newUser.setEmail(email);
+	    	newUser.setRole(role);
 	    	newUser.setHashed_password(hashed_password);
 	    	
 	    	userDAO.createUser(newUser);
 	    	session.setAttribute("login_status", "true");
-	    	response.sendRedirect("home.jsp");
+	    	
+	    	if(role.equals("shop")) {
+	    		session.setAttribute("role", "shop");
+				response.sendRedirect("/DMS/views/shop/home.jsp");
+	    	}else if(role.equals("driver")) {
+	    		session.setAttribute("role", "driver");
+				response.sendRedirect("/DMS/views/driver/home.jsp");
+	    	}
+			
+			
+
 		}
 		catch(Exception e){
 			e.printStackTrace();

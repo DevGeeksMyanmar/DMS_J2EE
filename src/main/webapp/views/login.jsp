@@ -5,7 +5,7 @@
 <div class="p-5 shadow max-w-sm rounded-md mx-auto mt-10 md:mt-20 bg-white">
 <img src="../images/deli_logo.png" class="w-40 h-40 mx-auto" alt="" />
 
-<form class=" mx-auto" action="login" method="post" >
+<form class=" mx-auto px-1" action="login" method="post" >
 	<input type="hidden" id="status" value="<%= request.getAttribute("status") %>" />
    <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Email</label>
 	  <div class="relative mb-4">
@@ -30,8 +30,16 @@
 </div>
 <% 
     Object loginStatusObj = session.getAttribute("login_status");
+	Object role = session.getAttribute("role");
     if (loginStatusObj != null && loginStatusObj.equals("true")) {
-    	 response.sendRedirect("home.jsp");
+    	if(role.equals("admin")){
+    		response.sendRedirect("/DMS/views/admin/home.jsp");
+    	}else if(role.equals("shop")){
+    		response.sendRedirect("/DMS/views/shop/home.jsp");
+    	}else if(role.equals("driver")){
+    		response.sendRedirect("/DMS/views/driver/home.jsp");
+    	}
+    	 
     }
 %>
 	<script type="text/javascript">
