@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import controller.Hash;
-import model.Student;
+
 import model.User;
 import util.DBConnection;
 
@@ -120,5 +120,43 @@ public boolean validateUser(String email, String password) {
     return isValid;
 }
 
+public boolean checkEmail(String email) {
+    boolean isValid = false;
+
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+    try {
+        // Establish the connection
+    	connection = DBConnection.openConnection();
+
+        // Prepare the statement
+        String sql = "SELECT COUNT(*) FROM users WHERE email = ?";
+        pstmt = connection.prepareStatement(sql);
+        pstmt.setString(1, email);
+        
+
+        // Execute the query
+        rs = pstmt.executeQuery();
+
+        // Process the result set
+        if (rs.next()) {
+        	int count = rs.getInt(1);
+        	return count > 0;
+        }
+    } catch (SQLException e) {
+        // Handle the exception
+        e.printStackTrace();
+    } finally {
+        // Close the resources
+        try {
+            if (rs != null) rs.close();
+            if (pstmt != null) pstmt.close();
+            if (connection != null) connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    return isValid;
+}
 }
 

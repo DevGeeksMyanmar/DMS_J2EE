@@ -52,6 +52,9 @@
 	if(status == "invalidEmail"){
 		swal("Sorry","Please Enter Email","error");
 	}
+	if(status == "emailExit"){
+		swal("Sorry","Email already Exists","error");
+	}
 </script>
 
 <%@ include file="../layout/footer.jsp" %>
