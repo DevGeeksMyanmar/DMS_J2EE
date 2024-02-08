@@ -21,17 +21,18 @@ PreparedStatement preparedStatement = null;
 
 public void createUser(User user) {
 	try {
-		String sql = "INSERT INTO users(name, email,role, hashed_password) VALUES (?,?,?,?)";
+		String sql = "INSERT INTO users(name, email,phone,role, hashed_password) VALUES (?,?,?,?,?)";
 		connection = DBConnection.openConnection();
 		preparedStatement = 	connection.prepareStatement(sql);
 		preparedStatement.setString(1, user.getName());
 		preparedStatement.setString(2, user.getEmail());
+		preparedStatement.setString(3, user.getPhone());
 		if(user.getRole().equals("shop") || user.getRole().equals("driver")) {
-		    preparedStatement.setString(3, user.getRole());
+		    preparedStatement.setString(4, user.getRole());
 		}else {
-			preparedStatement.setString(3,"shop");
+			preparedStatement.setString(4,"shop");
 		}
-		preparedStatement.setString(4, user.getHashed_password());
+		preparedStatement.setString(5, user.getHashed_password());
 		preparedStatement.executeUpdate();
 	}catch(SQLException ex) {
 		ex.printStackTrace();

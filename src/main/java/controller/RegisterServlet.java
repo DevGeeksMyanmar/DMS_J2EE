@@ -42,6 +42,7 @@ public class RegisterServlet extends HttpServlet {
     	
 		String name = request.getParameter("username");
 		String email = request.getParameter("email");
+		String phone = request.getParameter("phone");
 		String role = request.getParameter("role");
 		String password = request.getParameter("password");
 		String confirm_password = request.getParameter("confirm_password");
@@ -85,6 +86,7 @@ public class RegisterServlet extends HttpServlet {
 	    	newUser.setName(name);
 	    	newUser.setEmail(email);
 	    	newUser.setRole(role);
+	    	newUser.setPhone(phone);
 	    	newUser.setHashed_password(hashed_password);
 	    	
 	    	userDAO.createUser(newUser);

@@ -2,7 +2,7 @@
 	
 <%@ include file="../layout/topNav.jsp" %>
 
-<div class="p-5 shadow max-w-sm rounded-md mx-auto mt-10 md:mt-20 bg-white">
+<div class="p-5 shadow max-w-sm rounded-md mx-auto mt-10 md:mt-20 bg-white mb-10">
 <img src="../images/deli_logo.png" class="w-40 h-40 mx-auto" alt="" />
 
 <form class=" mx-auto px-1" action="register" method="post" >
@@ -22,6 +22,10 @@
 	    </div>
 	    <input type="email" id="email" name="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter your email" >
 	  </div>
+	  <div class="mb-4">
+        <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Phone</label>
+        <input type="text" name="phone" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter your phone number" >
+    </div> 
 	  
 		<label for="role" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select role</label>
 		<select name="role" id="role" class="mb-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
