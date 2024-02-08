@@ -80,6 +80,15 @@ public class RegisterServlet extends HttpServlet {
 			dispatcher.forward(request,response);
 		}
 		
+		boolean emailExist = userDAO.checkEmail(email);
+		if(emailExist) {
+			request.setAttribute("status", "emailExist");
+			dispatcher = request.getRequestDispatcher("register.jsp");
+			dispatcher.forward(request,response);
+		
+			return;
+		}
+		
 		try {
 			
 			User newUser = new User();

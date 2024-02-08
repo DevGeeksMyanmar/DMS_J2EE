@@ -2,6 +2,8 @@
 	
 <%@ include file="../../layout/shop_sidenav.jsp" %>
 
+
+<%=2+3%>
 <% 
 Object loginStatusObj = session.getAttribute("login_status");
 Object role = session.getAttribute("role");
@@ -13,18 +15,21 @@ if (loginStatusObj == null || loginStatusObj.equals("false")) {
 %>
 
 <!-- Main content -->
-<div class="p-5 md:p-10 grid grid-cols-2 sm:ml-64">
+<div class="p-5 md:p-10 sm:ml-64">
    
-<div class="bg-white p-5 max-w-2xl mx-auto rounded-xl mt-10 md:mt-20">
-	
-
-
-</div>
-<div class="bg-white p-5 max-w-2xl mx-auto rounded-xl mt-10 md:mt-20">
-	
-
-
-</div>
+<div class="grid grid-cols-3 gap-4 mb-4">
+         <div class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
+            <p class="text-2xl text-gray-400 dark:text-gray-500">
+               Customer Info Form
+            </p>
+         </div>
+         <div class="col-span-2 flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
+            <p class="text-2xl text-gray-400 dark:text-gray-500">
+               Order item form
+            </p>
+         </div>
+         
+      </div>
 
 </div>
 
