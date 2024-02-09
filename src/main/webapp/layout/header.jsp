@@ -11,6 +11,7 @@
 <link rel="icon" type="" href="" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>DMS | Delivery Management System</title>
+<link rel="stylesheet" href="/DMS/assets/css/font.css">
 <!-- sweet alert cdn -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<link rel="stylesheet" href="alert/dist/sweetalert.css">

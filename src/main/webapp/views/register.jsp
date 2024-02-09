@@ -3,7 +3,7 @@
 <%@ include file="../layout/topNav.jsp" %>
 
 <div class="p-5 shadow max-w-lg rounded-md mx-auto mt-10 md:mt-20 bg-white mb-10">
-<img src="../images/deli_logo.png" class="w-40 h-40 mx-auto" alt="" />
+<img src="../assets/images/deli_logo.png" class="w-40 h-40 mx-auto" alt="" />
 
 <form class=" mx-auto px-1" action="register" method="post" >
 	<input type="hidden" id="status" value="<%= request.getAttribute("status") %>" />

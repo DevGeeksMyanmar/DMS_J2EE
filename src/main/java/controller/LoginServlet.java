@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.UserDAO;
+import model.User;
 
 
 @WebServlet("/views/login")
@@ -56,16 +57,16 @@ public class LoginServlet extends HttpServlet {
 			
 			if(isValid) {
 				session.setAttribute("login_status", "true");
-				String role = userDAO.getRole(email);
-				
-				if(role.equals("shop")) {
-					session.setAttribute("role", "shop");
+				User user = userDAO.getUser(email);
+				session.setAttribute("user", user);
+				if(user.getRole().equals("shop")) {
+					
 					response.sendRedirect("/DMS/views/shop/home.jsp");
-				}else if(role.equals("admin")) {
-					session.setAttribute("role", "admin");
+				}else if(user.getRole().equals("admin")) {
+					
 					response.sendRedirect("/DMS/views/admin/home.jsp");
-				}else if(role.equals("driver")) {
-					session.setAttribute("role", "driver");
+				}else if(user.getRole().equals("driver")) {
+					
 					response.sendRedirect("/DMS/views/driver/home.jsp");
 				}
 				

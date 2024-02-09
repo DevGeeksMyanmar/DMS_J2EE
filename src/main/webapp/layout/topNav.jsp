@@ -3,7 +3,7 @@
 <nav class="bg-white shadow border-gray-200 dark:bg-gray-900">
   <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 md:p-2	">
   <a href="/DMS/" class="flex items-center space-x-3 rtl:space-x-reverse">
-      <img src="/DMS/images/logo.png" class="w-16 " alt="Deli Logo" />
+      <img src="/DMS/assets/images/logo.png" class="w-16 " alt="Deli Logo" />
       <span class="self-center text-2xl font-bold whitespace-nowrap text-zinc-700 dark:text-white uppercase">Deli</span>
   </a>
   <div class="flex md:order-2">

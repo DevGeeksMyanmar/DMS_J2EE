@@ -2,14 +2,22 @@
 	
 <%@ include file="../../layout/admin_sidenav.jsp" %>
 
-<% 
-    Object loginStatusObj = session.getAttribute("login_status");
-	Object role = session.getAttribute("role");
-    if (loginStatusObj == null || loginStatusObj.equals("false")) {
-    	 response.sendRedirect("/DMS/views/login.jsp");
-    }else if(!(role.equals("admin"))){
-    	response.sendRedirect("/DMS/views/login.jsp");
+<%@ page import="model.User" %>
+
+<%
+Object loginStatusObj = session.getAttribute("login_status");
+Object userObj = session.getAttribute("user");
+
+if (loginStatusObj == null || !loginStatusObj.equals("true")) {
+    response.sendRedirect("/DMS/views/login.jsp");
+} else if (userObj == null || !(userObj instanceof User)) {
+    response.sendRedirect("/DMS/views/login.jsp");
+} else {
+    User user = (User) userObj;
+    if (!"admin".equals(user.getRole())) {
+        response.sendRedirect("/DMS/views/login.jsp");
     }
+}
 %>
 
 <!-- Main content -->

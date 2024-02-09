@@ -164,6 +164,47 @@ public String getRole(String email) {
     return role;
 }
 
+public User getUser(String email) {
+	User user = new User();
+	
+	PreparedStatement pstmt = null;
+    ResultSet rs = null;
+    try {
+        // Establish the connection
+    	connection = DBConnection.openConnection();
+
+        // Prepare the statement
+        String sql = "SELECT * FROM users WHERE email = ?";
+        pstmt = connection.prepareStatement(sql);
+        pstmt.setString(1, email);
+        
+
+        // Execute the query
+        rs = pstmt.executeQuery();
+
+        // Process the result set
+        if (rs.next()) {
+        	user.setName( rs.getString("name"));
+        	user.setEmail( rs.getString("email"));
+        	user.setPhone( rs.getString("phone"));
+        	user.setRole( rs.getString("role"));
+        }
+    } catch (SQLException e) {
+        // Handle the exception
+        e.printStackTrace();
+    } finally {
+        // Close the resources
+        try {
+            if (rs != null) rs.close();
+            if (pstmt != null) pstmt.close();
+            if (connection != null) connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    return user;
+}
+
 public boolean checkEmail(String email) {
     boolean isValid = false;
 

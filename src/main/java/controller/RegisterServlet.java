@@ -96,6 +96,7 @@ public class RegisterServlet extends HttpServlet {
 	    	newUser.setEmail(email);
 	    	newUser.setRole(role);
 	    	newUser.setPhone(phone);
+	    	session.setAttribute("user", newUser);
 	    	newUser.setHashed_password(hashed_password);
 	    	
 	    	userDAO.createUser(newUser);

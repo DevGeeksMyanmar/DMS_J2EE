@@ -2,13 +2,21 @@
 	
 <%@ include file="../../layout/shop_sidenav.jsp" %>
 
-<% 
+<%@ page import="model.User" %>
+
+<%
 Object loginStatusObj = session.getAttribute("login_status");
-Object role = session.getAttribute("role");
-if (loginStatusObj == null || loginStatusObj.equals("false")) {
-	 response.sendRedirect("/DMS/views/login.jsp");
-}else if(!(role.equals("shop"))){
-	response.sendRedirect("/DMS/views/login.jsp");
+Object userObj = session.getAttribute("user");
+
+if (loginStatusObj == null || !loginStatusObj.equals("true")) {
+    response.sendRedirect("/DMS/views/login.jsp");
+} else if (userObj == null || !(userObj instanceof User)) {
+    response.sendRedirect("/DMS/views/login.jsp");
+} else {
+    User user = (User) userObj;
+    if (!"shop".equals(user.getRole())) {
+        response.sendRedirect("/DMS/views/login.jsp");
+    }
 }
 %>
 
