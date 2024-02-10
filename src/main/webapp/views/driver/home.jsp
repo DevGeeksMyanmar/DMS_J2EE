@@ -5,10 +5,10 @@
 <%@ page import="model.User" %>
 
 <%
-Object loginStatusObj = session.getAttribute("login_status");
+
 Object userObj = session.getAttribute("user");
 
-if (loginStatusObj == null || !loginStatusObj.equals("true")) {
+if (userObj == null) {
     response.sendRedirect("/DMS/views/login.jsp");
 } else if (userObj == null || !(userObj instanceof User)) {
     response.sendRedirect("/DMS/views/login.jsp");

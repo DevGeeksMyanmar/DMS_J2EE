@@ -28,20 +28,24 @@
 </form>
 
 </div>
-<% 
-    Object loginStatusObj = session.getAttribute("login_status");
-	Object role = session.getAttribute("role");
-    if (loginStatusObj != null && loginStatusObj.equals("true")) {
-    	if(role.equals("admin")){
-    		response.sendRedirect("/DMS/views/admin/home.jsp");
-    	}else if(role.equals("shop")){
-    		response.sendRedirect("/DMS/views/shop/home.jsp");
-    	}else if(role.equals("driver")){
-    		response.sendRedirect("/DMS/views/driver/home.jsp");
-    	}
-    	 
-    }
+<%@ page import="model.User" %>
+
+	   <% 
+	   
+	   Object userObj = session.getAttribute("user");
+	   User user = (User) userObj;
+	    if (userObj != null) {
+	    	if("admin".equals(user.getRole())){
+	    		response.sendRedirect("/DMS/views/admin/home.jsp");
+	    	}else if("shop".equals(user.getRole())){
+	    		response.sendRedirect("/DMS/views/shop/home.jsp");
+	    	}else if("driver".equals(user.getRole())){
+	    		response.sendRedirect("/DMS/views/driver/home.jsp");
+	    	}
+	    	 
+	    }
 %>
+
 	<script type="text/javascript">
 	var status = document.getElementById("status").value;
 	if(status == "success"){

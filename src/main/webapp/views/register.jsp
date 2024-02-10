@@ -46,15 +46,18 @@
 </form>
 </div>
 
+<%@ page import="model.User" %>
+
 	   <% 
-	   Object loginStatusObj = session.getAttribute("login_status");
-		Object role = session.getAttribute("role");
-	    if (loginStatusObj != null && loginStatusObj.equals("true")) {
-	    	if(role.equals("admin")){
+	  
+	   Object userObj = session.getAttribute("user");
+	   User user = (User) userObj;
+	    if (userObj != null) {
+	    	if("admin".equals(user.getRole())){
 	    		response.sendRedirect("/DMS/views/admin/home.jsp");
-	    	}else if(role.equals("shop")){
+	    	}else if("shop".equals(user.getRole())){
 	    		response.sendRedirect("/DMS/views/shop/home.jsp");
-	    	}else if(role.equals("driver")){
+	    	}else if("driver".equals(user.getRole())){
 	    		response.sendRedirect("/DMS/views/driver/home.jsp");
 	    	}
 	    	 

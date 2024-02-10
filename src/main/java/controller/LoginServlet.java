@@ -56,7 +56,7 @@ public class LoginServlet extends HttpServlet {
 			boolean isValid = userDAO.validateUser(email,password);
 			
 			if(isValid) {
-				session.setAttribute("login_status", "true");
+				
 				User user = userDAO.getUser(email);
 				session.setAttribute("user", user);
 				if(user.getRole().equals("shop")) {

@@ -19,7 +19,8 @@ Statement statement = null;
 PreparedStatement preparedStatement = null;
 
 
-public void createUser(User user) {
+public User createUser(User user) {
+	User returnUser = new User() ;
 	try {
 		String sql = "INSERT INTO users(name, email,phone,role, hashed_password) VALUES (?,?,?,?,?)";
 		connection = DBConnection.openConnection();
@@ -34,10 +35,32 @@ public void createUser(User user) {
 		}
 		preparedStatement.setString(5, user.getHashed_password());
 		preparedStatement.executeUpdate();
+		
+		returnUser = getUser(user.getEmail());
 	}catch(SQLException ex) {
 		ex.printStackTrace();
 	}
+	return returnUser;
 }
+
+public boolean update(User user) {
+	   boolean flag = false;
+	   try {
+		String sql = "UPDATE users SET name = ?, email = ?, phone = ? , address = ? where id = ?";
+		connection = DBConnection.openConnection();
+		preparedStatement = connection.prepareStatement(sql);
+		preparedStatement.setString(1, user.getName());
+		preparedStatement.setString(2, user.getEmail());
+		preparedStatement.setString(3, user.getPhone());
+		preparedStatement.setString(4, user.getAddress());
+		preparedStatement.setInt(5, user.getId());
+		int rowUpdated = preparedStatement.executeUpdate();
+		if (rowUpdated>0) flag = true;
+		}catch(SQLException e) {
+		e.printStackTrace();
+		}
+		return flag;
+	   }
 
 public List<User> get() {
 	List<User> list = null;
@@ -184,10 +207,12 @@ public User getUser(String email) {
 
         // Process the result set
         if (rs.next()) {
+        	user.setId(rs.getInt("id"));
         	user.setName( rs.getString("name"));
         	user.setEmail( rs.getString("email"));
         	user.setPhone( rs.getString("phone"));
         	user.setRole( rs.getString("role"));
+        	user.setAddress(rs.getString("address"));
         }
     } catch (SQLException e) {
         // Handle the exception

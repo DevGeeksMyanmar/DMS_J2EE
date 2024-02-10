@@ -94,13 +94,18 @@ public class RegisterServlet extends HttpServlet {
 			User newUser = new User();
 	    	newUser.setName(name);
 	    	newUser.setEmail(email);
+	    	if(role.equals("admin")) {
+	    		role = "shop";
+	    	}
 	    	newUser.setRole(role);
 	    	newUser.setPhone(phone);
-	    	session.setAttribute("user", newUser);
+	    	
 	    	newUser.setHashed_password(hashed_password);
 	    	
-	    	userDAO.createUser(newUser);
-	    	session.setAttribute("login_status", "true");
+	    	User user = userDAO.createUser(newUser);
+	    	
+	    	session.setAttribute("user", user);
+	    	
 	    	
 	    	if(role.equals("shop")) {
 	    		session.setAttribute("role", "shop");
