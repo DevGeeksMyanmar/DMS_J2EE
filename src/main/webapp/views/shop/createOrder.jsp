@@ -38,12 +38,9 @@ if (loginStatusObj == null || loginStatusObj.equals("false")) {
 				  <option disabled selected>Choose Town Ship</option>
 				  <option value="shop">South Dagon</option>
 				  <option value="driver">Shwe Pyi Thar</option>
-				</select>
-				
+				</select>		
 				<label for="cusAddress" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Customer Address</label>
-				<textarea id="cusAddress" name="cusAddress" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter customer address"></textarea>
-
-				
+				<textarea id="cusAddress" name="cusAddress" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter customer address"></textarea>			
 		    </div> 
          </div>
          
@@ -71,10 +68,9 @@ if (loginStatusObj == null || loginStatusObj.equals("false")) {
             <span class="ml-3 text-white">Add Order</span>
         </button>
     </form>
- 
-    	 <div class="w-full max-w-xs mt-4">
+    	 <div class="w-full max-w-xs mt-4" id="ordersContainer">
         	<h1 class="text-2xl font-bold mb-4">Orders</h1>
-        	<textarea class="border border-gray-300 p-4" id="orderField"></textarea>
+        	<div class="border border-gray-300 p-4" id="orders">
     	</div>
 </div>
       
@@ -87,19 +83,17 @@ if (loginStatusObj == null || loginStatusObj.equals("false")) {
 
 <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const form = document.querySelector('#orderForm');
-            const orderField = document.querySelector('#orderField');
-			const orders = [];
-			
+            const form = document.querySelector('#orderForm');    
+			const ordersDiv = document.querySelector('#orders');
+            const orders = [];
+            
             form.addEventListener('submit', (event)=> {
                 event.preventDefault();
-
                 // Get the input values
-                const productName = document.querySelector('#productName').value;
-                const productPrice = document.querySelector('#productPrice').value;
-                const orderCount = document.querySelector('#orderCount').value;
-				
-            
+                
+                const productName = document.querySelector('#productName').value;       
+                const productPrice = document.querySelector('#productPrice').value;       
+                const orderCount = document.querySelector('#orderCount').value;              
 				 // Add  order to  orders array
 				 orders.push({
 				               productName: productName,
@@ -114,15 +108,24 @@ if (loginStatusObj == null || loginStatusObj.equals("false")) {
                 allOrders();       
             });
             
-            const allOrders =()=> {  
-                let allOrders = '';
+            const allOrders =()=> { 
+            	ordersDiv.innerHTML = '';
+                //let allOrders = '';
                 orders.forEach((order, index)=> {
-                    allOrders += 'Order ' + (index + 1) + ':\n' +
-                                       'Product Name: ' + order.productName + '\n' +
-                                       'Product Price: ' + order.productPrice + '\n' +
-                                       'Order Count: ' + order.orderCount + '\n\n';
+                	const orderDiv = document.createElement("div");
+
+                	orderDiv.style.border = '1px solid black';               	 
+                	orderDiv.style.padding = '10px'; 
+                	orderDiv.style.marginBottom = '10px'; 
+        	
+                	orderDiv.innerHTML = 'Order ' + (index + 1) + ':<br>' +
+                                       'Product Name: ' + order.productName + '<br>' +
+                                       'Product Price: ' + order.productPrice + '<br>' +
+                                       'Order Count: ' + order.orderCount + '<br><br>';
+
+                   ordersDiv.appendChild(orderDiv);
                 });
-                orderField.value = allOrders;
+                //orderField.value = allOrders;
             }
         });
     </script>
