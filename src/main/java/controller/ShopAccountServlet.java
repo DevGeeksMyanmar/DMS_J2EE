@@ -33,7 +33,7 @@ public class ShopAccountServlet extends HttpServlet {
     
 protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	RequestDispatcher dispatcher = request.getRequestDispatcher("updateProfile.jsp");
-    
+	HttpSession session = request.getSession();
 
     String id = request.getParameter("id");
     User user = new User();
@@ -45,8 +45,10 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
     try {
         user.setId(Integer.parseInt(id));
         if (userDAO.update(user)) {
+        	
+        	user.setRole(userDAO.getRole(user.getEmail()));
             request.setAttribute("status", "updated");
-            
+            session.setAttribute("user", user);
             
         } else {
             request.setAttribute("status", "failed");
