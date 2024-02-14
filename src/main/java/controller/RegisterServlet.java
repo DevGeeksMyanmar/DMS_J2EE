@@ -51,6 +51,14 @@ public class RegisterServlet extends HttpServlet {
 		RequestDispatcher dispatcher = null;
 		HttpSession session = request.getSession();
 		
+		boolean emailExist = userDAO.checkEmail(email);
+		if(emailExist) {
+			request.setAttribute("status", "emailExit");
+			dispatcher = request.getRequestDispatcher("register.jsp");
+			dispatcher.forward(request,response);
+			return;
+		}
+		
 		if(name == null || name.equals("")) {
 			request.setAttribute("status","invalidName");
 			dispatcher = request.getRequestDispatcher("register.jsp");
@@ -79,14 +87,7 @@ public class RegisterServlet extends HttpServlet {
 			dispatcher = request.getRequestDispatcher("register.jsp");
 			dispatcher.forward(request,response);
 		}
-		boolean emailExist = userDAO.checkEmail(email);
-		if(emailExist) {
-			request.setAttribute("status", "emailExit");
-			dispatcher = request.getRequestDispatcher("register.jsp");
-			dispatcher.forward(request,response);
-			//response.sendRedirect("home.jsp");
-			return;
-		}
+	
 		
 		try {
 			
@@ -107,9 +108,6 @@ public class RegisterServlet extends HttpServlet {
 	    		session.setAttribute("role", "driver");
 				response.sendRedirect("/DMS/views/driver/home.jsp");
 	    	}
-			
-			
-
 		}
 		catch(Exception e){
 			e.printStackTrace();

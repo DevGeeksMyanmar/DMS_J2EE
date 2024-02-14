@@ -84,6 +84,9 @@
 	if(status == "invalidRole"){
 		swal("Sorry","Please Select account type","error");
 	}
+	if(status == "emailExit"){
+		swal("Sorry","Email Already Exit","error");
+	}
 </script>
 
 <%@ include file="../layout/footer.jsp" %>

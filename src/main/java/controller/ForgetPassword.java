@@ -19,18 +19,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import dao.UserDAO;
+
 @WebServlet("/views/forgetPassword")
 public class ForgetPassword extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		UserDAO user = new UserDAO();
+		
 		String email = request.getParameter("email");
+		Boolean emailExit = user.checkEmail(email);
 		RequestDispatcher dispatcher = null;
 		int otpvalue = 0;
 		HttpSession mySession = request.getSession();
-		
-		if(email!=null || !email.equals("")) {
+
+		if(emailExit) {
 			
 			Random rand = new Random();
 			otpvalue = rand.nextInt(1255650);
@@ -65,11 +70,18 @@ public class ForgetPassword extends HttpServlet {
 			}
 			dispatcher = request.getRequestDispatcher("otp.jsp");
 			request.setAttribute("message","OTP is sent to your email id");
-			
 			mySession.setAttribute("otp",otpvalue); 
 			mySession.setAttribute("email",email); 
-			dispatcher.forward(request, response);
+			dispatcher.forward(request, response);	
+			
+		
+			}else {			
+				System.out.println("Email exists: " + emailExit + " else");
+
+				request.setAttribute("status", "emailNotExit");
+				dispatcher = request.getRequestDispatcher("forgetPassword.jsp");
+				dispatcher.forward(request, response);
+			}
 	}
 
 	}
-}
