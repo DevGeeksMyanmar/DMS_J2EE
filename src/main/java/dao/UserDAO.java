@@ -62,21 +62,27 @@ public boolean update(User user) {
 		return flag;
 	   }
 
-public List<User> get() {
+public List<User> get(String role) {
 	List<User> list = null;
 	User user = null;
 
 	try {
 	    list = new ArrayList<User>();
-	    String sql = "SELECT * FROM users";
+	    
+	    
+	    
+	    String sql = "SELECT * FROM users where role = ?";
 	    connection = DBConnection.openConnection();
-	    statement = connection.createStatement();
-	    resultSet = statement.executeQuery(sql);
+	    PreparedStatement pstmt = connection.prepareStatement(sql);
+	    pstmt.setString(1, role);
+	    resultSet = pstmt.executeQuery();
 	    while(resultSet.next()) {
 			user = new User();
-			
+			user.setId(resultSet.getInt("id"));
 			user.setName(resultSet.getString("name"));
 			user.setEmail(resultSet.getString("email"));
+			user.setPhone(resultSet.getString("phone"));
+			user.setAddress(resultSet.getString("address"));
 //			user.setHashed_password(resultSet.getString("hashed_password"));
 			list.add(user);
 	    }
@@ -85,7 +91,6 @@ public List<User> get() {
 	}
     return list;
 }
-
 
 
 public User get(int id) {
