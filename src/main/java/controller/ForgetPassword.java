@@ -39,8 +39,8 @@ public class ForgetPassword extends HttpServlet {
 			
 			Random rand = new Random();								 
 			long currentTime = System.currentTimeMillis();
-			//long expirationTime = currentTime + 10 * 60 * 1000; // OTP valid for 10 minutes
-			long expirationTime = currentTime + 60 * 1000; // 30 seconds
+			long expirationTime = currentTime + 15 * 60 * 1000; // OTP valid for 10 minutes
+			
 
 			String otpvalue = rand.nextInt(1255650) + "-" + expirationTime;
 			
