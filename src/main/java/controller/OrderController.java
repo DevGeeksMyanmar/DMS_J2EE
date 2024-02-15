@@ -8,8 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -24,6 +23,7 @@ import com.google.gson.JsonArray;
 import model.Customer;
 import model.Order;
 import model.OrderItem;
+import model.User;
 
 import javax.servlet.RequestDispatcher;
 
@@ -92,7 +92,16 @@ public class OrderController extends HttpServlet {
         OrderDAO orderDAO = new OrderDAO();
         OrderItemDAO orderItemDAO = new OrderItemDAO();
         
+        
+        
+        HttpSession session = request.getSession(false);
+        Object userObj = session.getAttribute("user");
+        User user = (User) userObj;
+        
+        
+        
         Order order = new Order();
+        order.setUser_id(user.getId());
         order.setCustomer_id(customer_id);
         order.setOrder_status("requesting");
         

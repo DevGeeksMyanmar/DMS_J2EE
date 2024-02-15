@@ -27,7 +27,7 @@ public int add(Order order) {
         String sql = "INSERT INTO orders (user_id, customer_id, order_status) VALUES (?, ?, ?)";
         connection = DBConnection.openConnection();
         preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-        preparedStatement.setInt(1, 1); // Assuming user_id is constant
+        preparedStatement.setInt(1, order.getUser_id()); // Assuming user_id is constant
         preparedStatement.setInt(2, order.getCustomer_id());
         preparedStatement.setString(3, order.getOrder_status());
 
