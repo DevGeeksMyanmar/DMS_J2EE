@@ -32,14 +32,21 @@ public class ForgetPassword extends HttpServlet {
 		String email = request.getParameter("email");
 		Boolean emailExit = user.checkEmail(email);
 		RequestDispatcher dispatcher = null;
-		int otpvalue = 0;
+		
 		HttpSession mySession = request.getSession();
 
 		if(emailExit) {
 			
-			Random rand = new Random();
-			otpvalue = rand.nextInt(1255650);
+			Random rand = new Random();								 
+			long currentTime = System.currentTimeMillis();
+			//long expirationTime = currentTime + 10 * 60 * 1000; // OTP valid for 10 minutes
+			long expirationTime = currentTime + 60 * 1000; // 30 seconds
 
+			String otpvalue = rand.nextInt(1255650) + "-" + expirationTime;
+			
+			String[] otpParts = otpvalue.split("-");
+			String otp = otpParts[0];
+			System.out.println(otp);
 			String to = email;
 			
 			Properties props = new Properties();
@@ -59,7 +66,7 @@ public class ForgetPassword extends HttpServlet {
 				message.setFrom(new InternetAddress(email));
 				message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 				message.setSubject("Hello");
-				message.setText("your OTP is: " + otpvalue);
+				message.setText("your OTP is: " + otp);
 				
 				Transport.send(message);
 				System.out.println("message sent successfully");
@@ -71,6 +78,7 @@ public class ForgetPassword extends HttpServlet {
 			dispatcher = request.getRequestDispatcher("otp.jsp");
 			request.setAttribute("message","OTP is sent to your email id");
 			mySession.setAttribute("otp",otpvalue); 
+			System.out.println(otpvalue+" .fpw");
 			mySession.setAttribute("email",email); 
 			dispatcher.forward(request, response);	
 			
