@@ -58,6 +58,7 @@ btn_submit.addEventListener("click",()=> {
 	const cusTownship = document.querySelector("#cusTownship");
 	const cusDetailAddress = document.querySelector("#cusDetailAddress");
 	
+	
 	const customer = {
 	    cusName : cusName.value,
 	    cusPhone : cusPhone.value,

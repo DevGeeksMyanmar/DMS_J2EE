@@ -8,7 +8,6 @@ public class Customer implements Serializable {
     private int id;
     private String customer_name;
     private String customer_phone;
-    private String customer_address;
     private String city;
     private String township;
     private String detail_address;
@@ -30,12 +29,7 @@ public class Customer implements Serializable {
 	public void setCustomer_phone(String customer_phone) {
 		this.customer_phone = customer_phone;
 	}
-	public String getCustomer_address() {
-		return customer_address;
-	}
-	public void setCustomer_address(String customer_address) {
-		this.customer_address = customer_address;
-	}
+	
 	public String getCity() {
 		return city;
 	}

@@ -26,7 +26,7 @@ public boolean add(OrderItem orderItem) {
 		String sql = "INSERT INTO order_item (order_id, product_name, order_count , price) VALUES (? , ?, ?, ?)";
 		connection = DBConnection.openConnection();
 		preparedStatement = 	connection.prepareStatement(sql);
-		preparedStatement.setInt(1, 1);
+		preparedStatement.setInt(1, orderItem.getOrder_id());
 		preparedStatement.setString(2, orderItem.getProduct_name());
 		preparedStatement.setInt(3, orderItem.getOrder_count());
 		preparedStatement.setInt(4, orderItem.getPrice());
@@ -40,5 +40,4 @@ public boolean add(OrderItem orderItem) {
 }
 
 }
-
 

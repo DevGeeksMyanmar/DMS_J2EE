@@ -15,11 +15,14 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import dao.CustomerDAO;
+import dao.OrderDAO;
 import dao.OrderItemDAO;
 
 import com.google.gson.JsonArray;
 
 import model.Customer;
+import model.Order;
 import model.OrderItem;
 
 import javax.servlet.RequestDispatcher;
@@ -72,6 +75,7 @@ public class OrderController extends HttpServlet {
         // Access the 'customer' property
         JsonObject customerObject = jsonObject.getAsJsonObject("customer");
       
+        
           
         Customer customer = new Customer();
         customer.setCustomer_name(customerObject.get("cusName").getAsString());
@@ -80,15 +84,27 @@ public class OrderController extends HttpServlet {
         customer.setTownship(customerObject.get("township").getAsString());
         customer.setDetail_address(customerObject.get("detailAddress").getAsString());
         
+        CustomerDAO customerDAO = new CustomerDAO();
+        int customer_id = customerDAO.add(customer);
+        
         JsonArray orderItemArray = jsonObject.getAsJsonArray("orderItems");
         
+        OrderDAO orderDAO = new OrderDAO();
         OrderItemDAO orderItemDAO = new OrderItemDAO();
+        
+        Order order = new Order();
+        order.setCustomer_id(customer_id);
+        order.setOrder_status("requesting");
+        
+        int order_id = orderDAO.add(order);
         
      // Iterate over the orderItemArray
         for (int i = 0; i < orderItemArray.size(); i++) {
             JsonObject orderItemObject = orderItemArray.get(i).getAsJsonObject();
             // Parse order_item data from JSON and create an OrderItem object
             OrderItem orderItem = new OrderItem();
+            
+            orderItem.setOrder_id(order_id);
             orderItem.setProduct_name(orderItemObject.get("productName").getAsString());
             orderItem.setPrice(orderItemObject.get("productPrice").getAsInt());
             orderItem.setOrder_count(orderItemObject.get("orderCount").getAsInt());
@@ -96,7 +112,7 @@ public class OrderController extends HttpServlet {
 //             Save the OrderItem to the database using the DAO
             boolean success = orderItemDAO.add(orderItem);
             if (success) {
-                System.out.println("Order Item " + (i + 1) + " added successfully.");
+                
             } else {
                 System.out.println("Failed to add Order Item " + (i + 1) + ".");
             }
