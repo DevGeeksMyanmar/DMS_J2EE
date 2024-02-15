@@ -77,13 +77,11 @@ btn_submit.addEventListener("click",()=> {
 	orderItems = [];
 	renderItems();
 
-	console.log(customer);
-    
-	
+
 })
 
 function sendDataToServlet(customer,orderItems) {
-    console.log("sent");
+    
     // Define the data you want to send
     var dataToSend = {
         customer: customer,
@@ -111,7 +109,11 @@ function sendDataToServlet(customer,orderItems) {
             return response.text(); // Assuming you're expecting a text response
         })
         .then(data => {
-            console.log('Response received from server:', data);
+            if(data == "ordered"){
+              swal("Success","Order Requested successfully","success");
+            }else if(data == "fail"){
+              swal("Sorry","Order fail.","error");
+            }
         })
         .catch(error => {
             console.error('There was a problem with your fetch operation:', error);

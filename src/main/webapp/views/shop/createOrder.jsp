@@ -23,7 +23,7 @@ if (userObj == null) {
 
 <!-- Main content -->
 <div class="p-5 md:p-10 sm:ml-64">
-   
+
 <div class="md:grid md:space-x-4 space-y-4 md:space-y-0 md:grid-cols-3 mb-4">
 
          <div class=" p-5 rounded bg-gray-50 dark:bg-gray-800">
@@ -100,8 +100,10 @@ if (userObj == null) {
 	</button>
 </div>	
 
-<script src="/DMS/assets/js/createOrder.js">
 
-</script>
+<script src="/DMS/assets/js/createOrder.js"></script>
+
+
+
 
 <%@ include file="../../layout/footer.jsp" %>

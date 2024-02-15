@@ -107,6 +107,8 @@ public class OrderController extends HttpServlet {
         
         int order_id = orderDAO.add(order);
         
+        boolean success = false;
+        
      // Iterate over the orderItemArray
         for (int i = 0; i < orderItemArray.size(); i++) {
             JsonObject orderItemObject = orderItemArray.get(i).getAsJsonObject();
@@ -119,18 +121,19 @@ public class OrderController extends HttpServlet {
             orderItem.setOrder_count(orderItemObject.get("orderCount").getAsInt());
             
 //             Save the OrderItem to the database using the DAO
-            boolean success = orderItemDAO.add(orderItem);
-            if (success) {
-                
-            } else {
-                System.out.println("Failed to add Order Item " + (i + 1) + ".");
-            }
+            success = orderItemDAO.add(orderItem);
+            
         }
         
-        // Optionally, you can send a response back to the client
         response.setContentType("text/plain");
         response.setCharacterEncoding("UTF-8");
-        response.getWriter().write("Data received successfully!");
+        
+        if (success) {
+            response.getWriter().write("ordered");
+        } else {
+            response.getWriter().write("fail");
+        }
+ 
 	}
 
 }
