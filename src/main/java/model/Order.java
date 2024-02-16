@@ -10,6 +10,9 @@ public class Order implements Serializable {
     private int customer_id;
     private String order_status;
     private int driver_id;
+    private String customer_name;
+    private String driver_name;
+
     
 	public int getId() {
 		return id;
@@ -41,6 +44,17 @@ public class Order implements Serializable {
 	public void setDriver_id(int driver_id) {
 		this.driver_id = driver_id;
 	}
+	public String getCustomer_name() {
+		return customer_name;
+	}
+	public void setCustomer_name(String customer_name) {
+		this.customer_name = customer_name;
+	}
+	public String getDriver_name() {
+		return driver_name;
+	}
+	public void setDriver_name(String driver_name) {
+		this.driver_name = driver_name;
+	}
     
 }
-

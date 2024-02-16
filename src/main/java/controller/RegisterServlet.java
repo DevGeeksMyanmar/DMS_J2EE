@@ -109,7 +109,7 @@ public class RegisterServlet extends HttpServlet {
 	    	
 	    	if(role.equals("shop")) {
 	    		session.setAttribute("role", "shop");
-				response.sendRedirect("/DMS/views/shop/home.jsp");
+				response.sendRedirect("/DMS/views/shop/home");
 	    	}else if(role.equals("driver")) {
 	    		session.setAttribute("role", "driver");
 				response.sendRedirect("/DMS/views/driver/home.jsp");
