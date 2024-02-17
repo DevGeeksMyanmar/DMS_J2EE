@@ -2,6 +2,7 @@
 <%@ include file="../layout/topNav.jsp" %>
 
 <div class="max-w-sm mx-auto mt-10 md:mt-20 p-5 bg-white shadow rounded-xl">
+<input type="hidden" id="status" value="<%= request.getAttribute("status") %>" />
 	<h2 class="text-2xl font-semibold mb-1 text-zinc-800">Forgot your password?</h2>
 	<p class="text-sm text-zincc-600">Change your password in three easy steps. This will help you to secure your password!</p>
 	<div class="text-sm bg-gray-100 rounded my-3 px-3 py-2">
@@ -30,4 +31,12 @@
       </div>  
 </form>
 </div>
+
+
+<script type="text/javascript">
+var status = document.getElementById("status").value;
+	if(status == "emailNotExit"){
+		swal("Sorry","Email Not Exit!","error");
+	}
+</script>
 <%@ include file="../layout/footer.jsp" %>

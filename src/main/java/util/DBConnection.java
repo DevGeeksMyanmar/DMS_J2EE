@@ -8,11 +8,7 @@ public class DBConnection {
 	public static Connection openConnection() {
 	try{
             Class.forName("com.mysql.cj.jdbc.Driver"); 
-<<<<<<< HEAD
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/DMS","root","Pkko300274#");
-=======
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/dms","root","");
->>>>>>> 551139d99aab8da241b1b3cb7f942aedbb41ecdd
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/DMS","root","milomilo");
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             } catch (SQLException e) {

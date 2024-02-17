@@ -95,6 +95,9 @@
 		swal("Sorry","Please Select account type","error");
 >>>>>>> 551139d99aab8da241b1b3cb7f942aedbb41ecdd
 	}
+	if(status == "emailExit"){
+		swal("Sorry","Email Already Exit","error");
+	}
 </script>
 
 <%@ include file="../layout/footer.jsp" %>
