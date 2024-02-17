@@ -20,17 +20,28 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.UserDAO;
+import dao.OtpDAO;
+import model.Otp;
 
 @WebServlet("/views/forgetPassword")
 public class ForgetPassword extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-
+	UserDAO userDAO = null;
+	OtpDAO otpDAO =null;
+	int otp ;
+	public ForgetPassword() {
+		userDAO = new UserDAO();
+		otpDAO = new OtpDAO();
+	}
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		RequestDispatcher dispatcher = request.getRequestDispatcher("forgetpassword.jsp");
+	    dispatcher.forward(request, response);
+	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		UserDAO user = new UserDAO();
-		
+			
 		String email = request.getParameter("email");
-		Boolean emailExit = user.checkEmail(email);
+		Boolean emailExit = userDAO.checkEmail(email);
+		
 		RequestDispatcher dispatcher = null;
 		
 		HttpSession mySession = request.getSession();
@@ -39,14 +50,10 @@ public class ForgetPassword extends HttpServlet {
 			
 			Random rand = new Random();								 
 			long currentTime = System.currentTimeMillis();
-			long expirationTime = currentTime + 15 * 60 * 1000; // OTP valid for 10 minutes
-			
 
-			String otpvalue = rand.nextInt(1255650) + "-" + expirationTime;
-			
-			String[] otpParts = otpvalue.split("-");
-			String otp = otpParts[0];
+			int otp = 100000 + rand.nextInt(900000);
 			System.out.println(otp);
+			
 			String to = email;
 			
 			Properties props = new Properties();
@@ -77,19 +84,37 @@ public class ForgetPassword extends HttpServlet {
 			}
 			dispatcher = request.getRequestDispatcher("otp.jsp");
 			request.setAttribute("message","OTP is sent to your email id");
-			mySession.setAttribute("otp",otpvalue); 
-			System.out.println(otpvalue+" .fpw");
+
 			mySession.setAttribute("email",email); 
 			dispatcher.forward(request, response);	
 			
+				Otp otpUser = otpDAO.getByEmail(email);
+				if (otpUser != null) {
+					otpUser.setOtp(otp);
+					otpDAO.update(otpUser);
+		    	}else {
+		    		otpUser = new Otp();
+		    	    otpUser.setEmail(email);
+		    	    otpUser.setOtp(otp);
+		    	    otpDAO.createUser(otpUser);
+		    	}
 		
-			}else {			
-				System.out.println("Email exists: " + emailExit + " else");
-
+		}else {			
+				
 				request.setAttribute("status", "emailNotExit");
 				dispatcher = request.getRequestDispatcher("forgetPassword.jsp");
 				dispatcher.forward(request, response);
 			}
+		try {
+			Otp newOtp = new Otp();
+			newOtp.setOtp(otp);
+			newOtp.setEmail(email);		
+			otpDAO.createUser(newOtp);
+			mySession.setAttribute("code_sent","true");
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	}

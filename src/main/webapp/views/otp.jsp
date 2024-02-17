@@ -24,7 +24,7 @@
 </form>
 <script type="text/javascript">
 	var status = document.getElementById("status").value;
-	if(status == "otp"){
+	if(status == "expire"){
 		swal("Sorry","Otp Expired","error");
 	}
 	</script>
