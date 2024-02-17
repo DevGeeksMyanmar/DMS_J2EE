@@ -13,11 +13,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import dao.UserDAO;
+
 
 
 @WebServlet("/views/newPassword")
 public class NewPassword extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		RequestDispatcher dispatcher = request.getRequestDispatcher("newPassword.jsp");
+	    dispatcher.forward(request, response);
+	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
@@ -28,25 +36,24 @@ public class NewPassword extends HttpServlet {
 		RequestDispatcher dispatcher = null;
 		
 		if (newPassword != null && confirmPass != null && newPassword.equals(confirmPass)) {
-			try {
-				Class.forName("com.mysql.cj.jdbc.Driver");
-				Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/register?useSSL=false", "root","Pkko300274#");
-				PreparedStatement ps = con.prepareStatement("update users set hashPassword = ? where email = ? ");
-				ps.setString(1, hashPassword);
-				ps.setString(2, (String) session.getAttribute("email"));
-
-				int rowCount = ps.executeUpdate();
-				if (rowCount > 0) {
-					request.setAttribute("status", "resetSuccess");
-					dispatcher = request.getRequestDispatcher("home.jsp");
-				} else {
-					request.setAttribute("status", "resetFail");
-					dispatcher = request.getRequestDispatcher("login.jsp");
-				}
+			String email = (String) session.getAttribute("email");
+			System.out.println("opt email : "+ email);
+			UserDAO userDAO = new UserDAO();
+			boolean passwordUpdated = userDAO.updatePassword(email,hashPassword);
+			
+			if(passwordUpdated) {
+				request.setAttribute("status", "passwordChanged");
+				dispatcher = request.getRequestDispatcher("login.jsp");
 				dispatcher.forward(request, response);
-			} catch (Exception e) {
-				e.printStackTrace();
+			}else {
+				request.setAttribute("status", "fail");
+				dispatcher = request.getRequestDispatcher("newPassword.jsp");
+				dispatcher.forward(request, response);
 			}
+		}else {
+			request.setAttribute("status", "password not match");
+			dispatcher = request.getRequestDispatcher("newPassword.jsp");
+			dispatcher.forward(request, response);
 		}
 	}
 }

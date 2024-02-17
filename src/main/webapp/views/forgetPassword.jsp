@@ -2,6 +2,7 @@
 <%@ include file="../layout/topNav.jsp" %>
 
 <div class="max-w-sm mx-auto mt-10 md:mt-20 p-5 bg-white shadow rounded-xl">
+<input type="hidden" id="status" value="<%= request.getAttribute("status") %>" />
 	<h2 class="text-2xl font-semibold mb-1 text-zinc-800">Forgot your password?</h2>
 	<p class="text-sm text-zincc-600">Change your password in three easy steps. This will help you to secure your password!</p>
 	<div class="text-sm bg-gray-100 rounded my-3 px-3 py-2">
@@ -23,11 +24,19 @@
 		  </div>
       <div class="mt-5">
       
-      	<button type="submit" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Get New Password</button>
+      	<button type="submit" class="cursor-pointer text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Get New Password</button>
       	<a class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" href="/DMS/views/login">
       		Back to Login   	
       	</a>
       </div>  
 </form>
 </div>
+
+
+<script type="text/javascript">
+var status = document.getElementById("status").value;
+	if(status == "emailNotExit"){
+		swal("Sorry","Email Not Exist!","error");
+	}
+</script>
 <%@ include file="../layout/footer.jsp" %>

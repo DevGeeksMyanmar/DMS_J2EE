@@ -19,22 +19,41 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import dao.UserDAO;
+import dao.OtpDAO;
+import model.Otp;
+
 @WebServlet("/views/forgetPassword")
 public class ForgetPassword extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-
+	UserDAO userDAO = null;
+	OtpDAO otpDAO =null;
+	int otp ;
+	public ForgetPassword() {
+		userDAO = new UserDAO();
+		otpDAO = new OtpDAO();
+	}
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		RequestDispatcher dispatcher = request.getRequestDispatcher("forgetpassword.jsp");
+	    dispatcher.forward(request, response);
+	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String email = request.getParameter("email");
-		RequestDispatcher dispatcher = null;
-		int otpvalue = 0;
-		HttpSession mySession = request.getSession();
-		
-		if(email!=null || !email.equals("")) {
 			
-			Random rand = new Random();
-			otpvalue = rand.nextInt(1255650);
+		String email = request.getParameter("email");
+		Boolean emailExit = userDAO.checkEmail(email);
+		
+		RequestDispatcher dispatcher = null;
+		
+		HttpSession mySession = request.getSession();
 
+		if(emailExit) {
+			
+			Random rand = new Random();								 
+			long currentTime = System.currentTimeMillis();
+
+			int otp = 100000 + rand.nextInt(900000);
+			
+			
 			String to = email;
 			
 			Properties props = new Properties();
@@ -54,10 +73,10 @@ public class ForgetPassword extends HttpServlet {
 				message.setFrom(new InternetAddress(email));
 				message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 				message.setSubject("Hello");
-				message.setText("your OTP is: " + otpvalue);
+				message.setText("your OTP is: " + otp);
 				
 				Transport.send(message);
-				System.out.println("message sent successfully");
+				
 			}
 
 			catch (MessagingException e) {
@@ -65,11 +84,28 @@ public class ForgetPassword extends HttpServlet {
 			}
 			dispatcher = request.getRequestDispatcher("otp.jsp");
 			request.setAttribute("message","OTP is sent to your email id");
-			
-			mySession.setAttribute("otp",otpvalue); 
+
 			mySession.setAttribute("email",email); 
-			dispatcher.forward(request, response);
+			dispatcher.forward(request, response);	
+			
+				Otp otpUser = otpDAO.getByEmail(email);
+				if (otpUser != null) {
+					otpUser.setOtp(otp);
+					otpDAO.update(otpUser);
+		    	}else {
+		    		otpUser = new Otp();
+		    	    otpUser.setEmail(email);
+		    	    otpUser.setOtp(otp);
+		    	    otpDAO.createUser(otpUser);
+		    	}
+		
+		}else {			
+				
+				request.setAttribute("status", "emailNotExit");
+				dispatcher = request.getRequestDispatcher("forgetPassword.jsp");
+				dispatcher.forward(request, response);
+		}
+
 	}
 
 	}
-}

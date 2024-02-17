@@ -1,12 +1,20 @@
 <%@ include file="../layout/header.jsp" %>
 	
-	<% if(request.getAttribute("message")!=null){
-		out.print("<p>"+request.getAttribute("message")+"</p>");
-	} %>
+	<%
+
+String email = (String) request.getSession().getAttribute("email");
+if (email == null) {
+    
+    response.sendRedirect("login.jsp");
+}
+
+%>
 		
-	
-	<form class="max-w-sm mx-auto" action="validateOtp" method="post" >
-		<input type="hidden" class="hide" name="token" id="token" value="">
+	<div class="max-w-sm mx-auto mt-10 md:mt-20 p-5 bg-white shadow rounded-xl">
+		<form class="max-w-sm mx-auto" action="validateOtp" method="post" >
+		<p class="mb-2 bg-green-400 border border-gray-300 text-gray-900 text-sm text-white rounded focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">If you're seeing this page which means otp code is sent to your email address.</p>
+	<input type="hidden" id="status" value="<%= request.getAttribute("status") %>" />
+		<input type="hidden" class="hide" name="message" id="message" value="<%= request.getAttribute("message") %>" />
 	   <label for="otp" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Otp</label>
 		  <div class="relative">
 		    <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
@@ -21,4 +29,14 @@
       	<button type="submit" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Reset Password</button>      		
       </div>  
 </form>
+	</div>
+	
+<script type="text/javascript">
+	var status = document.getElementById("status").value;
+	if(status == "wrong"){
+		swal("Sorry","Please enter correct otp","error");
+	}
+	
+	
+	</script>
 <%@ include file="../layout/footer.jsp" %>

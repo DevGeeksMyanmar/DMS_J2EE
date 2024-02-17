@@ -62,6 +62,23 @@ public boolean update(User user) {
 		return flag;
 	   }
 
+public boolean updatePassword(String email, String hashed_password) {
+	boolean flag = false;
+	   try {
+		String sql = "UPDATE users SET hashed_password = ? where email = ?";
+		connection = DBConnection.openConnection();
+		preparedStatement = connection.prepareStatement(sql);
+		preparedStatement.setString(1, hashed_password);
+		preparedStatement.setString(2, email);
+		
+		int rowUpdated = preparedStatement.executeUpdate();
+		if (rowUpdated>0) flag = true;
+		}catch(SQLException e) {
+		e.printStackTrace();
+		}
+		return flag;
+}
+
 public List<User> get(String role) {
 	List<User> list = null;
 	User user = null;
