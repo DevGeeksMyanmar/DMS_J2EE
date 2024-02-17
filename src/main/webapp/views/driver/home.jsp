@@ -1,7 +1,24 @@
-<%@ include file="../layout/header.jsp" %>
+<%@ include file="../../layout/header.jsp" %>
 	
-<%@ include file="../layout/sidenav.jsp" %>
+<%@ include file="../../layout/driver_sidenav.jsp" %>
 
+<%@ page import="model.User" %>
+
+<%
+
+Object userObj = session.getAttribute("user");
+
+if (userObj == null) {
+    response.sendRedirect("/DMS/views/login.jsp");
+} else if (userObj == null || !(userObj instanceof User)) {
+    response.sendRedirect("/DMS/views/login.jsp");
+} else {
+    User user = (User) userObj;
+    if (!"driver".equals(user.getRole())) {
+        response.sendRedirect("/DMS/views/login.jsp");
+    }
+}
+%>
 
 <!-- Main content -->
 <div class="p-4 sm:ml-64">
@@ -108,4 +125,4 @@
 
 
 
-<%@ include file="../layout/footer.jsp" %>
+<%@ include file="../../layout/footer.jsp" %>

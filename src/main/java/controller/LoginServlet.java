@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.UserDAO;
+import model.User;
 
 
 @WebServlet("/views/login")
@@ -50,15 +51,25 @@ public class LoginServlet extends HttpServlet {
 		}
 		
 		
-		
-		
-		
 		try {
 
 			boolean isValid = userDAO.validateUser(email,password);
 			
 			if(isValid) {
-				response.sendRedirect("home.jsp");
+				
+				User user = userDAO.getUser(email);
+				session.setAttribute("user", user);
+				if(user.getRole().equals("shop")) {
+					
+					response.sendRedirect("/DMS/views/shop/home");
+				}else if(user.getRole().equals("admin")) {
+					
+					response.sendRedirect("/DMS/views/admin/home.jsp");
+				}else if(user.getRole().equals("driver")) {
+					
+					response.sendRedirect("/DMS/views/driver/home.jsp");
+				}
+				
 			}else {
 				//login fail
 				dispatcher = request.getRequestDispatcher("login.jsp");
