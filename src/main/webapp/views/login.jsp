@@ -22,8 +22,8 @@
         <input type="password" name="password" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter your password" >
     </div> 
     <div class="flex items-center mb-4">
-    <input id="default-checkbox" type="checkbox" value="" class="cursor-pointer w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-    <label for="default-checkbox" class="cursor-pointer ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Show Password</label>
+    <input id="showPassword" type="checkbox" value="" class="cursor-pointer w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+    <label for="showPassword" class="cursor-pointer ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Show Password</label>
 </div>
     <div class="mb-4">
        <a href="forgetPassword.jsp" class="cursor-pointer text-blue-600 underline hover:text-blue-700">Forget Password ?</a>
@@ -76,6 +76,14 @@
 	if(status == "passwordChanged"){
 		swal("Hello","Password changed successfully , now you can login with your new password.","success");
 	}
+	
+	var passwordField = document.getElementById("password");
+	    var showPasswordCheckbox = document.getElementById("showPassword");
+
+	showPasswordCheckbox.addEventListener("change", function() {
+	passwordField.type = this.checked ? "text" : "password";
+	});
+	</script>
 </script>
 <%@ include file="../layout/footer.jsp" %>
 

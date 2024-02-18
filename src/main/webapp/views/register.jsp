@@ -43,8 +43,8 @@
         <input type="password" name="confirm_password" id="confirm_password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter your password" >
     </div> 
     <div class="flex items-center mb-4">
-    <input id="default-checkbox" type="checkbox" value="" class="cursor-pointer w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-    <label for="default-checkbox" class="cursor-pointer ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Show Password</label>
+    <input id="showPassword" type="checkbox" value="" class="cursor-pointer w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+    <label for="showPassword" class="cursor-pointer ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Show Password</label>
 </div>
     <input type="submit" value="Register" name="login" id="login" class="cursor-pointer font-semibold w-full text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 rounded-lg text-lg px-5 py-2.5 me-2 mt-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
 </form>
@@ -94,6 +94,16 @@
 	if(status == "invalidRole"){
 		swal("Sorry","Please Select account type","error");
 	}
+	
+	var passwordField = document.getElementById("password");
+    var confirmPasswordField = document.getElementById("confirm_password");
+    var showPasswordCheckbox = document.getElementById("showPassword");
+
+    showPasswordCheckbox.addEventListener("change", function() {
+        var type = this.checked ? "text" : "password";
+        passwordField.setAttribute("type", type);
+        confirmPasswordField.setAttribute("type", type);
+    });
 </script>
 
 <%@ include file="../layout/footer.jsp" %>
