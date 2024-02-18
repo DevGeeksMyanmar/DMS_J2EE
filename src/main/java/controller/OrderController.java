@@ -74,65 +74,75 @@ public class OrderController extends HttpServlet {
         
         // Access the 'customer' property
         JsonObject customerObject = jsonObject.getAsJsonObject("customer");
-      
-        
-          
-        Customer customer = new Customer();
-        customer.setCustomer_name(customerObject.get("cusName").getAsString());
-        customer.setCustomer_phone(customerObject.get("cusPhone").getAsString());
-        customer.setCity(customerObject.get("city").getAsString());
-        customer.setTownship(customerObject.get("township").getAsString());
-        customer.setDetail_address(customerObject.get("detailAddress").getAsString());
-        
-        CustomerDAO customerDAO = new CustomerDAO();
-        int customer_id = customerDAO.add(customer);
-        
         JsonArray orderItemArray = jsonObject.getAsJsonArray("orderItems");
         
-        OrderDAO orderDAO = new OrderDAO();
-        OrderItemDAO orderItemDAO = new OrderItemDAO();
-        
-        
-        
-        HttpSession session = request.getSession(false);
-        Object userObj = session.getAttribute("user");
-        User user = (User) userObj;
-        
-        
-        
-        Order order = new Order();
-        order.setUser_id(user.getId());
-        order.setCustomer_id(customer_id);
-        order.setOrder_status("requesting");
-        
-        int order_id = orderDAO.add(order);
-        
-        boolean success = false;
-        
-     // Iterate over the orderItemArray
-        for (int i = 0; i < orderItemArray.size(); i++) {
-            JsonObject orderItemObject = orderItemArray.get(i).getAsJsonObject();
-            // Parse order_item data from JSON and create an OrderItem object
-            OrderItem orderItem = new OrderItem();
+      
+        if(!customerObject.get("cusName").getAsString().isEmpty() && orderItemArray.size() > 0){
+        	Customer customer = new Customer();
+            customer.setCustomer_name(customerObject.get("cusName").getAsString());
+            customer.setCustomer_phone(customerObject.get("cusPhone").getAsString());
+            customer.setCity(customerObject.get("city").getAsString());
+            customer.setTownship(customerObject.get("township").getAsString());
+            customer.setDetail_address(customerObject.get("detailAddress").getAsString());
             
-            orderItem.setOrder_id(order_id);
-            orderItem.setProduct_name(orderItemObject.get("productName").getAsString());
-            orderItem.setPrice(orderItemObject.get("productPrice").getAsInt());
-            orderItem.setOrder_count(orderItemObject.get("orderCount").getAsInt());
+            CustomerDAO customerDAO = new CustomerDAO();
+            int customer_id = customerDAO.add(customer);
             
-//             Save the OrderItem to the database using the DAO
-            success = orderItemDAO.add(orderItem);
             
-        }
-        
-        response.setContentType("text/plain");
-        response.setCharacterEncoding("UTF-8");
-        
-        if (success) {
-            response.getWriter().write("ordered");
-        } else {
+            
+            OrderDAO orderDAO = new OrderDAO();
+            OrderItemDAO orderItemDAO = new OrderItemDAO();
+            
+            
+            
+            HttpSession session = request.getSession(false);
+            Object userObj = session.getAttribute("user");
+            User user = (User) userObj;
+            
+            
+            
+            Order order = new Order();
+            order.setUser_id(user.getId());
+            order.setCustomer_id(customer_id);
+            order.setOrder_status("requesting");
+            
+            int order_id = orderDAO.add(order);
+            
+            boolean success = false;
+            
+            // Iterate over the orderItemArray
+               for (int i = 0; i < orderItemArray.size(); i++) {
+                   JsonObject orderItemObject = orderItemArray.get(i).getAsJsonObject();
+                   // Parse order_item data from JSON and create an OrderItem object
+                   OrderItem orderItem = new OrderItem();
+                   
+                   orderItem.setOrder_id(order_id);
+                   orderItem.setProduct_name(orderItemObject.get("productName").getAsString());
+                   orderItem.setPrice(orderItemObject.get("productPrice").getAsInt());
+                   orderItem.setOrder_count(orderItemObject.get("orderCount").getAsInt());
+                   
+//                    Save the OrderItem to the database using the DAO
+                   success = orderItemDAO.add(orderItem);
+                   
+               }
+               
+               response.setContentType("text/plain");
+               response.setCharacterEncoding("UTF-8");
+               
+               if (success) {
+                   response.getWriter().write("ordered");
+               } else {
+                   response.getWriter().write("fail");
+               }
+        }else {
+        	response.setContentType("text/plain");
+            response.setCharacterEncoding("UTF-8");
             response.getWriter().write("fail");
         }
+          
+        
+        
+        
  
 	}
 

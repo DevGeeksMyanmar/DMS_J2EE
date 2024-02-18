@@ -58,21 +58,22 @@ public int add(Order order) {
     return order_id;
 }
 
-public List<Order> get(int user_id, String searchKey) {
+public List<Order> get(int user_id, String searchKey, String orderStatus) {
     List<Order> list = null;
     Order order = null;
 
     try {
         list = new ArrayList<>();
         String sql = "SELECT orders.*, customer.customer_name, users.name AS driver_name "
-            + "FROM orders "
-            + "LEFT JOIN customer ON customer.id = orders.customer_id "
-            + "LEFT JOIN users ON users.id = orders.driver_id AND users.role = 'driver' "
-            + "WHERE orders.user_id = ? AND customer.customer_name LIKE ?";
+                + "FROM orders "
+                + "LEFT JOIN customer ON customer.id = orders.customer_id "
+                + "LEFT JOIN users ON users.id = orders.driver_id AND users.role = 'driver' "
+                + "WHERE orders.user_id = ? AND customer.customer_name LIKE ? AND orders.order_status LIKE ?";
         connection = DBConnection.openConnection();
         preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setInt(1, user_id);
         preparedStatement.setString(2, "%" + searchKey + "%");
+        preparedStatement.setString(3, "%" + orderStatus + "%");
         resultSet = preparedStatement.executeQuery(); 	
         while(resultSet.next()) {
             order = new Order();

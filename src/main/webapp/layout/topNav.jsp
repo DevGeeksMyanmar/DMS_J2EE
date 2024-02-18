@@ -38,11 +38,11 @@
           <a href="#" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Services</a>
         </li>
         <div class="md:hidden mt-1 flex flex-col space-y-2 sm:flex-row sm:justify-center sm:space-y-0">
-            <a href="views/login" class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-zinc-800 border border-gray-300 rounded-lg bg-white focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">
+            <a href="/DMS/views/login" class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-zinc-800 border border-gray-300 rounded-lg bg-white focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">
                 Login
                 
             </a>
-            <a href="views/register" class="bg-white inline-flex justify-center items-center py-3 px-5 sm:ms-4 text-base font-medium text-center text-gray-900 rounded-lg border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
+            <a href="/DMS/views/register" class="bg-white inline-flex justify-center items-center py-3 px-5 sm:ms-4 text-base font-medium text-center text-gray-900 rounded-lg border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
                 Register
             </a>  
         </div>
