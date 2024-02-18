@@ -23,27 +23,40 @@ public class ShopHomeController extends HttpServlet {
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	String searchKey = request.getParameter("searchKey");
+    	
+//    	for order status filter
+    	String filterStatus = request.getParameter("filterStatus");
+    	
+    	if(filterStatus == null) {
+    		filterStatus = "";
+    	}
+    	
     	 HttpSession session = request.getSession(false);
          Object userObj = session.getAttribute("user");
          User user = (User) userObj;
          OrderDAO orderDAO = new OrderDAO();
          
 
-		if(searchKey != null) {
-		    		
-		    		
-		    		List<Order> orderList = orderDAO.get(user.getId() ,searchKey);
-		    		request.setAttribute("searchKey", searchKey);
-		        	request.setAttribute("orderList", orderList);
-		        	dispatcher = request.getRequestDispatcher("home.jsp");
-		        	dispatcher.forward(request, response);
-		    	}else {
-		    		
-		    		List<Order> orderList = orderDAO.get(user.getId() ,"");
-		        	request.setAttribute("orderList", orderList);
-		        	dispatcher = request.getRequestDispatcher("home.jsp");
-		        	dispatcher.forward(request, response);
-		    	}
+         if (searchKey != null) {
+        	    List<Order> orderList = orderDAO.get(user.getId(), searchKey, filterStatus);
+        	    request.setAttribute("searchKey", searchKey);
+        	    request.setAttribute("orderList", orderList);
+        	} else {
+        		
+        	    List<Order> orderList = orderDAO.get(user.getId(), "", filterStatus);
+        	    request.setAttribute("orderList", orderList);
+        	}
+         
+         	if(!filterStatus.isEmpty()) {
+         		request.setAttribute("filterStatus", filterStatus);
+         	}else {
+         		request.setAttribute("filterStatus", "all");
+         	}
+         	
+
+        	// Forward the request to the appropriate JSP page
+        	RequestDispatcher dispatcher = request.getRequestDispatcher("home.jsp");
+        	dispatcher.forward(request, response);
     	
     		
     	
