@@ -36,22 +36,25 @@ public class ShopHomeController extends HttpServlet {
          User user = (User) userObj;
          OrderDAO orderDAO = new OrderDAO();
          
-
-         if (searchKey != null) {
-        	    List<Order> orderList = orderDAO.get(user.getId(), searchKey, filterStatus);
-        	    request.setAttribute("searchKey", searchKey);
-        	    request.setAttribute("orderList", orderList);
-        	} else {
-        		
-        	    List<Order> orderList = orderDAO.get(user.getId(), "", filterStatus);
-        	    request.setAttribute("orderList", orderList);
-        	}
          
-         	if(!filterStatus.isEmpty()) {
-         		request.setAttribute("filterStatus", filterStatus);
-         	}else {
-         		request.setAttribute("filterStatus", "all");
+
+         if(user != null) {
+        	 if (searchKey != null) {
+         	    List<Order> orderList = orderDAO.get(user.getId(), searchKey, filterStatus);
+         	    request.setAttribute("searchKey", searchKey);
+         	    request.setAttribute("orderList", orderList);
+         	} else {
+         		
+         	    List<Order> orderList = orderDAO.get(user.getId(), "", filterStatus);
+         	    request.setAttribute("orderList", orderList);
          	}
+          
+          	if(!filterStatus.isEmpty()) {
+          		request.setAttribute("filterStatus", filterStatus);
+          	}else {
+          		request.setAttribute("filterStatus", "all");
+          	}
+         }
          	
 
         	// Forward the request to the appropriate JSP page

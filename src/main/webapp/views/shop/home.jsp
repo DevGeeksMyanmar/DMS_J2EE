@@ -37,6 +37,10 @@ if (userObj == null) {
             <div id="dropdownRadio" class="z-10 hidden w-48 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" data-popper-reference-hidden="" data-popper-escaped="" data-popper-placement="top" style="position: absolute; inset: auto auto 0px 0px; margin: 0px; transform: translate3d(522.5px, 3847.5px, 0px);">
                 <ul class="p-3 space-y-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownRadioButton">
                     <li>
+                    <a href="home" class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                            
+                            <div class="w-full ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">All</div>
+                        </a>
                         <a href="home?filterStatus=requesting" class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
                             
                             <div class="w-full ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">Requesting</div>
@@ -126,7 +130,7 @@ if (userObj == null) {
                     not assigned
                 </td>
                 </c:if>
-                <td class=" py-4">
+                <td class=" py-4 space-x-2 flex px-2 md:px-0">
                     <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline bg-blue-600 shadow text-white px-3 py-2 rounded-md">view</a>
                 	<a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline bg-red-600 shadow text-white px-3 py-2 rounded-md">delete</a>
                 </td>
