@@ -89,5 +89,53 @@ public List<Order> get(int user_id, String searchKey, String orderStatus) {
     return list;
 }
 
+//get order by id
+
+public Order get(String order_id) {
+    Order order = new Order();
+
+    try {
+        String sql = "SELECT orders.*, customer.customer_name, users.name AS driver_name "
+                + "FROM orders "
+                + "LEFT JOIN customer ON customer.id = orders.customer_id "
+                + "LEFT JOIN users ON users.id = orders.driver_id AND users.role = 'driver' "
+                + "WHERE orders.id = ?";
+        connection = DBConnection.openConnection();
+        preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, order_id);
+        resultSet = preparedStatement.executeQuery(); 
+
+        // Move the cursor to the first row (if exists)
+        if (resultSet.next()) {
+        	order.setUser_id(resultSet.getInt("user_id"));
+        	order.setCustomer_id(resultSet.getInt("customer_id"));
+        	order.setDriver_id(resultSet.getInt("driver_id"));
+            order.setCustomer_name(resultSet.getString("customer_name"));
+            order.setDriver_name(resultSet.getString("driver_name"));
+            order.setOrder_status(resultSet.getString("order_status"));
+        }
+    } catch(SQLException e) {
+        e.printStackTrace();
+    } finally {
+        // Close resources properly in the finally block
+        // Ensure that connections, statements, and result sets are properly closed
+        try {
+            if (resultSet != null) {
+                resultSet.close();
+            }
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+    return order;
+}
+
+
 }
 
