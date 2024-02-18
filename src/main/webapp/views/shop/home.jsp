@@ -131,8 +131,8 @@ if (userObj == null) {
                 </td>
                 </c:if>
                 <td class=" py-4 space-x-2 flex px-2 md:px-0">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline bg-blue-600 shadow text-white px-3 py-2 rounded-md">view</a>
-                	<a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline bg-red-600 shadow text-white px-3 py-2 rounded-md">delete</a>
+                    <a href="order?action=view&orderId=${order.id}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline bg-blue-600 shadow text-white px-3 py-2 rounded-md">view</a>
+                	<a href="order?action=delete&orderId=${order.id}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline bg-red-600 shadow text-white px-3 py-2 rounded-md">delete</a>
                 </td>
             </tr>
              </c:forEach>

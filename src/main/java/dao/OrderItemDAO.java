@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.Order;
 import model.OrderItem;
 import model.Student;
 import model.User;
@@ -37,6 +38,33 @@ public boolean add(OrderItem orderItem) {
 		ex.printStackTrace();
 	}
 	return false;
+}
+
+public List<OrderItem> getOrderItems(String orderId) {
+    List<OrderItem> orderItems = new ArrayList<>();
+    OrderItem orderItem = null;
+
+    try {
+        
+        String sql = "SELECT * FROM order_item WHERE order_id = ?";
+        connection = DBConnection.openConnection();
+        preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, orderId);
+        
+        resultSet = preparedStatement.executeQuery(); 	
+        while(resultSet.next()) {
+            orderItem = new OrderItem();
+            orderItem.setId(resultSet.getInt("id"));
+            orderItem.setProduct_name(resultSet.getString("product_name"));
+            orderItem.setOrder_count(resultSet.getInt("order_count"));
+            orderItem.setPrice(resultSet.getInt("price"));
+            
+            orderItems.add(orderItem);
+        }
+    } catch(SQLException e) {
+        e.printStackTrace();
+    }
+    return orderItems;
 }
 
 }

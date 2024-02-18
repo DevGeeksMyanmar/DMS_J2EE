@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import controller.Hash;
 import model.Customer;
+import model.Order;
 import model.Student;
 import model.User;
 import util.DBConnection;
@@ -58,6 +59,49 @@ public int add(Customer customer) {
     }
     return customer_id;
 }
+
+//get customer by customer_id
+
+public Customer get(int customer_id) {
+  Customer customer = new Customer();
+
+  try {
+      String sql = "SELECT * from customer where id = ?";
+      connection = DBConnection.openConnection();
+      preparedStatement = connection.prepareStatement(sql);
+      preparedStatement.setInt(1, customer_id);
+      resultSet = preparedStatement.executeQuery(); 
+
+      // Move the cursor to the first row (if exists)
+      if (resultSet.next()) {
+          customer.setCustomer_name(resultSet.getString("customer_name"));
+          customer.setCustomer_phone(resultSet.getString("customer_phone"));
+          customer.setCity(resultSet.getString("city"));
+          customer.setTownship(resultSet.getString("township"));
+          customer.setDetail_address(resultSet.getString("detail_address"));
+      }
+  } catch(SQLException e) {
+      e.printStackTrace();
+  } finally {
+      // Close resources properly in the finally block
+      // Ensure that connections, statements, and result sets are properly closed
+      try {
+          if (resultSet != null) {
+              resultSet.close();
+          }
+          if (preparedStatement != null) {
+              preparedStatement.close();
+          }
+          if (connection != null) {
+              connection.close();
+          }
+      } catch (SQLException ex) {
+          ex.printStackTrace();
+      }
+  }
+  return customer;
+}
+
 
 }
 
