@@ -39,6 +39,7 @@ Back</a>
 		
 			<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Order Information</h5>
 			<p class="font-normal text-gray-700 dark:text-gray-400">Order ID : <span class="font-semibold text-zinc-800"><%= order.getId() %></span></p>
+			<p class="font-normal text-gray-700 dark:text-gray-400">Shop : <span class="font-semibold text-zinc-800"><%= order.getShop_name() %></span></p>
 			<p class="font-normal text-gray-700 dark:text-gray-400">Driver : <span class="font-semibold text-zinc-800"><%= (order.getDriver_name() != null) ? order.getDriver_name() : "Not assigned" %></span></p>
 			<p class="font-normal text-gray-700 dark:text-gray-400">Order Status : <span class="font-semibold text-zinc-800"><%= order.getOrder_status() %></span></p>
 		</div>
