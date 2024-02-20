@@ -40,9 +40,9 @@
 	   User user = (User) userObj;
 	    if (userObj != null) {
 	    	if("admin".equals(user.getRole())){
-	    		response.sendRedirect("/DMS/views/admin/home.jsp");
+	    		response.sendRedirect("/DMS/views/admin/home");
 	    	}else if("shop".equals(user.getRole())){
-	    		response.sendRedirect("/DMS/views/shop/home.jsp");
+	    		response.sendRedirect("/DMS/views/shop/home");
 	    	}else if("driver".equals(user.getRole())){
 	    		response.sendRedirect("/DMS/views/driver/home.jsp");
 	    	}
