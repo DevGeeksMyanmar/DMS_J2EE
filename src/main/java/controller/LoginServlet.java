@@ -64,7 +64,7 @@ public class LoginServlet extends HttpServlet {
 					response.sendRedirect("/DMS/views/shop/home");
 				}else if(user.getRole().equals("admin")) {
 					
-					response.sendRedirect("/DMS/views/admin/home.jsp");
+					response.sendRedirect("/DMS/views/admin/home");
 				}else if(user.getRole().equals("driver")) {
 					
 					response.sendRedirect("/DMS/views/driver/home.jsp");

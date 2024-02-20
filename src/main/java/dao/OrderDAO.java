@@ -58,6 +58,45 @@ public int add(Order order) {
     return order_id;
 }
 
+//get order list for admin 
+public List<Order> get( String searchKey, String orderStatus) {
+    List<Order> list = null;
+    Order order = null;
+
+    try {
+        list = new ArrayList<>();
+        String sql = "SELECT orders.*, customer.*, "
+                + "driver.name AS driver_name, shop.name AS shop_name "
+                + "FROM orders "
+                + "LEFT JOIN customer ON customer.id = orders.customer_id "
+                + "LEFT JOIN users AS driver ON driver.id = orders.driver_id AND driver.role = 'driver' "
+                + "LEFT JOIN users AS shop ON shop.id = orders.user_id AND shop.role = 'shop' "
+                + "WHERE (customer.customer_name LIKE ? OR shop.name LIKE ?)  AND orders.order_status LIKE ?";
+        connection = DBConnection.openConnection();
+        preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, "%" + searchKey + "%");
+        preparedStatement.setString(2, "%" + searchKey + "%");
+        preparedStatement.setString(3, "%" + orderStatus + "%");
+        resultSet = preparedStatement.executeQuery(); 	
+        while(resultSet.next()) {
+            order = new Order();
+            order.setId(resultSet.getInt("id"));
+            order.setCustomer_name(resultSet.getString("customer_name"));
+            order.setCustomer_city(resultSet.getString("city"));
+            order.setCustomer_township(resultSet.getString("township"));
+            order.setShop_name(resultSet.getString("shop_name"));
+            order.setDriver_name(resultSet.getString("driver_name"));
+            order.setOrder_status(resultSet.getString("order_status"));
+            list.add(order);
+        }
+    } catch(SQLException e) {
+        e.printStackTrace();
+    }
+    return list;
+}
+
+
+//get order list for shop
 public List<Order> get(int user_id, String searchKey, String orderStatus) {
     List<Order> list = null;
     Order order = null;

@@ -11,6 +11,8 @@ public class Order implements Serializable {
     private String order_status;
     private int driver_id;
     private String customer_name;
+    private String customer_city;
+    private String customer_township;
     private String driver_name;
     private String shop_name;
 
@@ -62,6 +64,18 @@ public class Order implements Serializable {
 	}
 	public void setShop_name(String shop_name) {
 		this.shop_name = shop_name;
+	}
+	public String getCustomer_city() {
+		return customer_city;
+	}
+	public void setCustomer_city(String customer_city) {
+		this.customer_city = customer_city;
+	}
+	public String getCustomer_township() {
+		return customer_township;
+	}
+	public void setCustomer_township(String customer_township) {
+		this.customer_township = customer_township;
 	}
     
 }
