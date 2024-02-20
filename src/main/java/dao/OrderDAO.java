@@ -64,10 +64,12 @@ public List<Order> get(int user_id, String searchKey, String orderStatus) {
 
     try {
         list = new ArrayList<>();
-        String sql = "SELECT orders.*, customer.customer_name, users.name AS driver_name "
+        String sql = "SELECT orders.*, customer.customer_name, "
+                + "driver.name AS driver_name, shop.name AS shop_name "
                 + "FROM orders "
                 + "LEFT JOIN customer ON customer.id = orders.customer_id "
-                + "LEFT JOIN users ON users.id = orders.driver_id AND users.role = 'driver' "
+                + "LEFT JOIN users AS driver ON driver.id = orders.driver_id AND driver.role = 'driver' "
+                + "LEFT JOIN users AS shop ON shop.id = orders.user_id AND shop.role = 'shop' "
                 + "WHERE orders.user_id = ? AND customer.customer_name LIKE ? AND orders.order_status LIKE ?";
         connection = DBConnection.openConnection();
         preparedStatement = connection.prepareStatement(sql);
@@ -79,6 +81,7 @@ public List<Order> get(int user_id, String searchKey, String orderStatus) {
             order = new Order();
             order.setId(resultSet.getInt("id"));
             order.setCustomer_name(resultSet.getString("customer_name"));
+            order.setShop_name(resultSet.getString("shop_name"));
             order.setDriver_name(resultSet.getString("driver_name"));
             order.setOrder_status(resultSet.getString("order_status"));
             list.add(order);
@@ -95,10 +98,12 @@ public Order get(String order_id) {
     Order order = new Order();
 
     try {
-        String sql = "SELECT orders.*, customer.customer_name, users.name AS driver_name "
+    	String sql = "SELECT orders.*, customer.customer_name, "
+                + "driver.name AS driver_name, shop.name AS shop_name "
                 + "FROM orders "
                 + "LEFT JOIN customer ON customer.id = orders.customer_id "
-                + "LEFT JOIN users ON users.id = orders.driver_id AND users.role = 'driver' "
+                + "LEFT JOIN users AS driver ON driver.id = orders.driver_id AND driver.role = 'driver' "
+                + "LEFT JOIN users AS shop ON shop.id = orders.user_id AND shop.role = 'shop' "
                 + "WHERE orders.id = ?";
         connection = DBConnection.openConnection();
         preparedStatement = connection.prepareStatement(sql);
@@ -111,6 +116,7 @@ public Order get(String order_id) {
         	order.setCustomer_id(resultSet.getInt("customer_id"));
         	order.setDriver_id(resultSet.getInt("driver_id"));
             order.setCustomer_name(resultSet.getString("customer_name"));
+            order.setShop_name(resultSet.getString("shop_name"));
             order.setDriver_name(resultSet.getString("driver_name"));
             order.setOrder_status(resultSet.getString("order_status"));
         }
