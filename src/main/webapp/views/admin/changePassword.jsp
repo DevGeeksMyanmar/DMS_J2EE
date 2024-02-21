@@ -1,22 +1,8 @@
 <%@ include file="../../layout/header.jsp" %>
-<%@ include file="../../layout/shop_sidenav.jsp" %>
+<%@ include file="../../layout/admin_sidenav.jsp" %>
 <%@ page import="model.User" %>
 
-<%
 
-Object userObj = session.getAttribute("user");
-
-if (userObj == null) {
-    response.sendRedirect("/DMS/views/login.jsp");
-} else if (userObj == null || !(userObj instanceof User)) {
-    response.sendRedirect("/DMS/views/login.jsp");
-} else {
-    User user = (User) userObj;
-    if (!"shop".equals(user.getRole())) {
-        response.sendRedirect("/DMS/views/login.jsp");
-    }
-}
-%>
 <!-- Main content -->
 <input type=hidden id="status" value="<%= request.getAttribute("status") %>" />
 <div class="p-5 md:p-10  sm:ml-64">
@@ -51,9 +37,11 @@ if (userObj == null) {
 	const status = document.getElementById("status").value;
 	if(status == "success"){
 		swal("Success","Password changed successfully","success");
+		
 	}
 	if(status == "fail"){
 		swal("Sorry","Password Can't Change","error");
+		
 	}
 	if(status == "passwordNotMatch"){
 		swal("Sorry","Please enter same password","error");
