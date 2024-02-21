@@ -40,7 +40,7 @@ public class LoginServlet extends HttpServlet {
 		 
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
-		
+		session.setAttribute("email", email);
 		if(email == null || email.equals("")) {
 			request.setAttribute("status", "invalidEmail");
 			dispatcher.forward(request, response);

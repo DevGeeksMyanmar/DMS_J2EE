@@ -26,9 +26,16 @@ public class AdminHomeController extends HttpServlet {
     	
 //    	for order status filter
     	String filterStatus = request.getParameter("filterStatus");
+    	String township = request.getParameter("township");
+    	
+    	
     	
     	if(filterStatus == null) {
     		filterStatus = "";
+    	}
+    	
+    	if(township == null) {
+    		township = "";
     	}
     	
     	 HttpSession session = request.getSession(false);
@@ -40,12 +47,12 @@ public class AdminHomeController extends HttpServlet {
 
          if(user != null) {
         	 if (searchKey != null) {
-         	    List<Order> orderList = orderDAO.get(searchKey, filterStatus);
+         	    List<Order> orderList = orderDAO.get(searchKey, filterStatus , township);
          	    request.setAttribute("searchKey", searchKey);
          	    request.setAttribute("orderList", orderList);
          	} else {
          		
-         	    List<Order> orderList = orderDAO.get("", filterStatus);
+         	    List<Order> orderList = orderDAO.get("", filterStatus , township);
          	    request.setAttribute("orderList", orderList);
          	}
           
@@ -53,6 +60,12 @@ public class AdminHomeController extends HttpServlet {
           		request.setAttribute("filterStatus", filterStatus);
           	}else {
           		request.setAttribute("filterStatus", "all");
+          	}
+          	
+          	if(!township.isEmpty()) {
+          		request.setAttribute("township", township);
+          	}else {
+          		request.setAttribute("township", "all");
           	}
          }
          

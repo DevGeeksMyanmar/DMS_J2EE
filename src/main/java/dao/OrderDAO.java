@@ -59,7 +59,7 @@ public int add(Order order) {
 }
 
 //get order list for admin 
-public List<Order> get( String searchKey, String orderStatus) {
+public List<Order> get( String searchKey, String orderStatus , String township) {
     List<Order> list = null;
     Order order = null;
 
@@ -71,12 +71,13 @@ public List<Order> get( String searchKey, String orderStatus) {
                 + "LEFT JOIN customer ON customer.id = orders.customer_id "
                 + "LEFT JOIN users AS driver ON driver.id = orders.driver_id AND driver.role = 'driver' "
                 + "LEFT JOIN users AS shop ON shop.id = orders.user_id AND shop.role = 'shop' "
-                + "WHERE (customer.customer_name LIKE ? OR shop.name LIKE ?)  AND orders.order_status LIKE ?";
+                + "WHERE (customer.customer_name LIKE ? OR shop.name LIKE ?)  AND orders.order_status LIKE ? AND customer.township LIKE ?";
         connection = DBConnection.openConnection();
         preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, "%" + searchKey + "%");
         preparedStatement.setString(2, "%" + searchKey + "%");
         preparedStatement.setString(3, "%" + orderStatus + "%");
+        preparedStatement.setString(4, "%" + township + "%");
         resultSet = preparedStatement.executeQuery(); 	
         while(resultSet.next()) {
             order = new Order();
