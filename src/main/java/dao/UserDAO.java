@@ -252,6 +252,8 @@ public User getUser(String email) {
     return user;
 }
 
+
+
 public boolean checkEmail(String email) {
     boolean isValid = false;
 

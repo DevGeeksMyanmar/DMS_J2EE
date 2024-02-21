@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.OrderDAO;
-
+import dao.UserDAO;
 import model.Order;
 import model.User;
 
@@ -55,6 +55,12 @@ public class AdminHomeController extends HttpServlet {
           		request.setAttribute("filterStatus", "all");
           	}
          }
+         
+         UserDAO userDAO = new UserDAO();
+         
+         List<User> driverList = userDAO.get("driver");
+     	
+     		request.setAttribute("driverList", driverList);
          	
 
         	// Forward the request to the appropriate JSP page
