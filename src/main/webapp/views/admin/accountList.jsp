@@ -113,7 +113,10 @@ if (userObj == null) {
                     ${acc.address}
                 </td>
                 <td class="px-6 py-4">
-                    <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline">delete</a>
+                <form action="deleteAccount" method="post">
+                	<input type="hidden" value="${acc.id}" name="acc_id">
+                    <button type="submit" class="font-medium text-red-600 dark:text-red-500 hover:underline">delete</button>
+                </form>
                 </td>
             </tr>
             </c:forEach>

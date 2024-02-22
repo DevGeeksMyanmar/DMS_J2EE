@@ -293,4 +293,19 @@ public boolean checkEmail(String email) {
     return isValid;
 }
 
+public boolean delete(String id) {
+	
+	boolean flag = false;
+	   try {
+	   String sql = "DELETE FROM users where id="+id;
+		connection = DBConnection.openConnection();
+		preparedStatement = connection.prepareStatement(sql);
+		int rowDeleted = preparedStatement.executeUpdate();
+		if(rowDeleted>0) flag = true;
+		}catch(SQLException e) {
+		e.printStackTrace();
+		}
+	   return flag;
+	}
+
 }
