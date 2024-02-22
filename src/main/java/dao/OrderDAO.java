@@ -181,6 +181,20 @@ public Order get(String order_id) {
     }
     return order;
 }
+public boolean delete(String id) {
+	
+	boolean flag = false;
+	   try {
+	   String sql = "DELETE FROM orders where id="+id;
+		connection = DBConnection.openConnection();
+		preparedStatement = connection.prepareStatement(sql);
+		int rowDeleted = preparedStatement.executeUpdate();
+		if(rowDeleted>0) flag = true;
+		}catch(SQLException e) {
+		e.printStackTrace();
+		}
+	   return flag;
+	}
 
 
 }

@@ -143,6 +143,15 @@ if (userObj == null) {
 
 </div>
 
-
+<script type="text/javascript">
+	var status = document.getElementById("status").value;
+	if(status == "deleteSuccess"){
+		swal("success","Order deleted Successfully","success");
+	}
+	if(status == "fail"){
+		swal("fail","Order delete failed","error");
+	}
+	
+</script>
 
 <%@ include file="../../layout/footer.jsp" %>

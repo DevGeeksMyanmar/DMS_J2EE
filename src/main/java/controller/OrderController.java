@@ -63,7 +63,17 @@ public class OrderController extends HttpServlet {
     	if(action.equals("view")) {
     		getOrderDetail(request,response);
     	}else if(action.equals("delete")) {
-    		RequestDispatcher dispatcher = request.getRequestDispatcher("createOrder.jsp");
+    		String order_id = request.getParameter("orderId");
+    		OrderDAO orderDAO = new OrderDAO();
+            boolean deleteSuccess = orderDAO.delete(order_id);
+    		
+            if(deleteSuccess) {
+            	request.setAttribute("status", "deleteSuccess");
+            }else {
+            	request.setAttribute("status", "fail");
+            }
+            
+    		RequestDispatcher dispatcher = request.getRequestDispatcher("home.jsp");
     	    dispatcher.forward(request, response);
     	}	
     	
@@ -151,6 +161,8 @@ public class OrderController extends HttpServlet {
             
             int order_id = orderDAO.add(order);
             
+           
+       
             boolean success = false;
             
             // Iterate over the orderItemArray
