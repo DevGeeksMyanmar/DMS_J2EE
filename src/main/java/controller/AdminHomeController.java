@@ -71,7 +71,7 @@ public class AdminHomeController extends HttpServlet {
          
          UserDAO userDAO = new UserDAO();
          
-         List<User> driverList = userDAO.get("driver");
+         List<User> driverList = userDAO.get("driver","");
      	
      		request.setAttribute("driverList", driverList);
          	

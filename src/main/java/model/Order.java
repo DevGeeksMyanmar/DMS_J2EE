@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 public class Order implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -15,7 +16,8 @@ public class Order implements Serializable {
     private String customer_township;
     private String driver_name;
     private String shop_name;
-
+    private Timestamp created_at;
+    private Timestamp updated_at;
     
 	public int getId() {
 		return id;
@@ -76,6 +78,18 @@ public class Order implements Serializable {
 	}
 	public void setCustomer_township(String customer_township) {
 		this.customer_township = customer_township;
+	}
+	public Timestamp getCreated_at() {
+		return created_at;
+	}
+	public void setCreated_at(Timestamp created_at) {
+		this.created_at = created_at;
+	}
+	public Timestamp getUpdated_at() {
+		return updated_at;
+	}
+	public void setUpdated_at(Timestamp updated_at) {
+		this.updated_at = updated_at;
 	}
     
 }

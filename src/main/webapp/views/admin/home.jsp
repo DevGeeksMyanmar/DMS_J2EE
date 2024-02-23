@@ -159,13 +159,13 @@ if (userObj == null) {
                     </div>
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Order ID
+                    ID
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Shop Name
+                    Shop
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Customer Name
+                    Customer
                 </th>
                 <th scope="col" class="px-6 py-3">
                     City
@@ -174,10 +174,13 @@ if (userObj == null) {
                     Township
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Deliver Status
+                    Status
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Assigned Driver
+                    Driver
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Created At
                 </th>
                 <th scope="col" class="px-6 py-3">
                     Action
@@ -227,6 +230,10 @@ if (userObj == null) {
                     not assigned
                 </td>
                 </c:if>
+                <td class="px-6 py-4">
+                    <fmt:formatDate value="${order.created_at}" pattern="dd MMM yyyy" />
+                    
+                </td>
                 <td class=" py-4 space-x-2 flex px-2 md:px-0">
                     <a href="order?action=view&orderId=${order.id}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline bg-blue-600 shadow text-white px-3 py-2 rounded-md">view</a>
                 	

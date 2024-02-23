@@ -27,9 +27,17 @@ public class AccountListController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
     	String role = request.getParameter("role");
-    	List<User> accountList = userDAO.get(role);
+    	String searchKey = request.getParameter("searchKey");
+    	
+    	if(searchKey == null) {
+    		searchKey = "";
+    	}
+    	
+    	List<User> accountList = userDAO.get(role,searchKey);
     	
     	request.setAttribute("accountList", accountList);
+    	request.setAttribute("role", role);
+    	request.setAttribute("searchKey", searchKey);
     	
     	RequestDispatcher dispatcher = request.getRequestDispatcher("accountList.jsp");
 	    dispatcher.forward(request, response);

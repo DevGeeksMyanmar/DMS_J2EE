@@ -98,6 +98,9 @@ if (userObj == null) {
                     Assigned Driver
                 </th>
                 <th scope="col" class="px-6 py-3">
+                    Created At
+                </th>
+                <th scope="col" class="px-6 py-3">
                     Action
                 </th>
             </tr>
@@ -130,6 +133,12 @@ if (userObj == null) {
                     not assigned
                 </td>
                 </c:if>
+                
+                <td class="px-6 py-4">
+                    <fmt:formatDate value="${order.created_at}" pattern="dd MMM yyyy" />
+                    
+                </td>
+                
                 <td class=" py-4 space-x-2 flex px-2 md:px-0">
                     <a href="order?action=view&orderId=${order.id}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline bg-blue-600 shadow text-white px-3 py-2 rounded-md">view</a>
                 	<a href="order?action=delete&orderId=${order.id}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline bg-red-600 shadow text-white px-3 py-2 rounded-md">delete</a>

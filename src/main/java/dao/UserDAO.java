@@ -79,7 +79,7 @@ public boolean updatePassword(String email, String hashed_password) {
 		return flag;
 }
 
-public List<User> get(String role) {
+public List<User> get(String role , String searchKey) {
 	List<User> list = null;
 	User user = null;
 
@@ -88,10 +88,11 @@ public List<User> get(String role) {
 	    
 	    
 	    
-	    String sql = "SELECT * FROM users where role = ?";
+	    String sql = "SELECT * FROM users where role = ? AND name LIKE ?";
 	    connection = DBConnection.openConnection();
 	    PreparedStatement pstmt = connection.prepareStatement(sql);
 	    pstmt.setString(1, role);
+	    pstmt.setString(2, "%" + searchKey + "%");
 	    resultSet = pstmt.executeQuery();
 	    while(resultSet.next()) {
 			user = new User();

@@ -88,6 +88,8 @@ public List<Order> get( String searchKey, String orderStatus , String township) 
             order.setShop_name(resultSet.getString("shop_name"));
             order.setDriver_name(resultSet.getString("driver_name"));
             order.setOrder_status(resultSet.getString("order_status"));
+            order.setCreated_at(resultSet.getTimestamp("created_at"));
+            order.setUpdated_at(resultSet.getTimestamp("updated_at"));
             list.add(order);
         }
     } catch(SQLException e) {
@@ -124,6 +126,8 @@ public List<Order> get(int user_id, String searchKey, String orderStatus) {
             order.setShop_name(resultSet.getString("shop_name"));
             order.setDriver_name(resultSet.getString("driver_name"));
             order.setOrder_status(resultSet.getString("order_status"));
+            order.setCreated_at(resultSet.getTimestamp("created_at"));
+            order.setUpdated_at(resultSet.getTimestamp("updated_at"));
             list.add(order);
         }
     } catch(SQLException e) {
@@ -159,6 +163,8 @@ public Order get(String order_id) {
             order.setShop_name(resultSet.getString("shop_name"));
             order.setDriver_name(resultSet.getString("driver_name"));
             order.setOrder_status(resultSet.getString("order_status"));
+            order.setCreated_at(resultSet.getTimestamp("created_at"));
+            order.setUpdated_at(resultSet.getTimestamp("updated_at"));
         }
     } catch(SQLException e) {
         e.printStackTrace();

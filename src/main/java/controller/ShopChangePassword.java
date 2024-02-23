@@ -39,9 +39,7 @@ public class ShopChangePassword extends HttpServlet {
 		System.out.print(oldPass);
 		RequestDispatcher dispatcher = null;
 		HttpSession session = request.getSession();
-		String session_email = (String) session.getAttribute("email");
-		
-		User user = userDAO.getUser(session_email);
+		User user = (User) session.getAttribute("user");
 		String email = user.getEmail();
 		boolean isValid = userDAO.validateUser(email,oldPass);
 		System.out.print("Valid: "+isValid);

@@ -38,7 +38,18 @@ Back</a>
 			<div class="block cursor-pointer mb-3  p-5 bg-white border border-gray-200 rounded-lg shadow  dark:bg-gray-800 dark:border-gray-700 ">
 		
 			<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Order Information</h5>
-			<p class="font-normal text-gray-700 dark:text-gray-400">Order ID : <span class="font-semibold text-zinc-800"><%= order.getId() %></span></p>
+			<p class="font-normal text-gray-700 dark:text-gray-400">Order ID : <span class="font-semibold text-zinc-800"><%= order.getId() %></span></p>	
+			<%
+			    // Assuming order.getCreated_at() returns a java.sql.Timestamp object
+			    java.sql.Timestamp createdTimestamp = order.getCreated_at();
+			    
+			    // Create a SimpleDateFormat object to format the timestamp
+			    SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy");
+			
+			    // Format the timestamp
+			    String formattedCreatedDate = sdf.format(createdTimestamp);
+			%>
+			<p class="font-normal text-gray-700 dark:text-gray-400">Created At : <span class="font-semibold text-zinc-800"><%= formattedCreatedDate %></span></p>	
 			<p class="font-normal text-gray-700 dark:text-gray-400">Shop : <span class="font-semibold text-zinc-800"><%= order.getShop_name() %></span></p>
 			<p class="font-normal text-gray-700 dark:text-gray-400">Driver : <span class="font-semibold text-zinc-800"><%= (order.getDriver_name() != null) ? order.getDriver_name() : "Not assigned" %></span></p>
 			<p class="font-normal text-gray-700 dark:text-gray-400">Order Status : <span class="font-semibold text-zinc-800"><%= order.getOrder_status() %></span></p>
