@@ -141,7 +141,12 @@ if (userObj == null) {
                 
                 <td class=" py-4 space-x-2 flex px-2 md:px-0">
                     <a href="order?action=view&orderId=${order.id}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline bg-blue-600 shadow text-white px-3 py-2 rounded-md">view</a>
-                	<a href="order?action=delete&orderId=${order.id}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline bg-red-600 shadow text-white px-3 py-2 rounded-md">delete</a>
+                	  <c:set var="currentTime" value="<%= new java.util.Date() %>" />
+					    <c:set var="twoDaysAgo" value="<%= new java.util.Date(System.currentTimeMillis() - (2 * 24 * 60 * 60 * 1000)) %>" />
+					    
+					    <c:if test="${order.created_at.after(twoDaysAgo) && order.created_at.before(currentTime)}">
+					      <a href="order?action=delete&orderId=${order.id}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline bg-red-600 shadow text-white px-3 py-2 rounded-md">Cancel</a>
+                	</c:if>
                 </td>
             </tr>
              </c:forEach>
@@ -152,6 +157,17 @@ if (userObj == null) {
 
 </div>
 
+<script>
+
+	const status = document.getElementById("status").value;
+	if(status == "deleteSuccess"){
+		swal("Deleted","Order deleted successfully","success");
+	}
+	if(status == "fail"){
+		swal("Sorry","Order delete fail","error");
+	}
+
+</script>
 
 
 <%@ include file="../../layout/footer.jsp" %>

@@ -98,6 +98,44 @@ public List<Order> get( String searchKey, String orderStatus , String township) 
     return list;
 }
 
+public boolean delete(String id) {
+	
+	boolean flag = false;
+	   try {
+	   String sql = "DELETE FROM orders where id="+id;
+		connection = DBConnection.openConnection();
+		preparedStatement = connection.prepareStatement(sql);
+		int rowDeleted = preparedStatement.executeUpdate();
+		if(rowDeleted>0) flag = true;
+		}catch(SQLException e) {
+		e.printStackTrace();
+		}
+	   return flag;
+	}
+
+//change status for driver // orderDAO.changeStatus(order_id,order_status)
+public boolean changeStatus(String id ,String status) {
+	
+	boolean flag = false;
+	   try {
+	   String sql = "UPDATE SET order_status = ? where id = ?";
+	   connection = DBConnection.openConnection();
+		preparedStatement = connection.prepareStatement(sql);
+		
+		preparedStatement.setString(1, status);
+		preparedStatement.setString(2, id);
+		
+		int rowDeleted = preparedStatement.executeUpdate();
+		if(rowDeleted>0) flag = true;
+		}catch(SQLException e) {
+		e.printStackTrace();
+		}
+	   return flag;
+	}
+
+
+
+
 
 //get order list for shop
 public List<Order> get(int user_id, String searchKey, String orderStatus) {

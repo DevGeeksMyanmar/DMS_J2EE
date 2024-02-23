@@ -101,6 +101,7 @@ public List<User> get(String role , String searchKey) {
 			user.setEmail(resultSet.getString("email"));
 			user.setPhone(resultSet.getString("phone"));
 			user.setAddress(resultSet.getString("address"));
+			user.setRole(resultSet.getString("role"));
 //			user.setHashed_password(resultSet.getString("hashed_password"));
 			list.add(user);
 	    }
@@ -109,6 +110,22 @@ public List<User> get(String role , String searchKey) {
 	}
     return list;
 }
+
+//delete account by id 
+public boolean delete(String id) {
+
+	boolean flag = false;
+	   try {
+	   String sql = "DELETE FROM users where id="+id;
+		connection = DBConnection.openConnection();
+		preparedStatement = connection.prepareStatement(sql);
+		int rowDeleted = preparedStatement.executeUpdate();
+		if(rowDeleted>0) flag = true;
+		}catch(SQLException e) {
+		e.printStackTrace();
+		}
+	   return flag;
+	}
 
 
 public User get(int id) {

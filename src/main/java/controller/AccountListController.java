@@ -45,7 +45,25 @@ public class AccountListController extends HttpServlet {
     }
     
 protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+	String action = request.getParameter("action");
+	if(action.equals("delete")) {
+		String account_id = request.getParameter("acc_id");
+		String account_role = request.getParameter("acc_role");
+		
+		boolean status = userDAO.delete(account_id);
+		if(status) {
+	    	request.setAttribute("status", "deleteSuccess");
+	    }else {
+	    	request.setAttribute("status", "fail");
+	    }
+		
+		response.sendRedirect("/DMS/views/admin/accountList?role="+account_role);
+		
+	}
+	
+	
+	
+	
 	}
     
 }

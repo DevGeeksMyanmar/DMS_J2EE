@@ -16,6 +16,7 @@ if (userObj == null) {
 %>
 <!-- Main content -->
 <div class="p-5 md:p-10  sm:ml-64">
+<input type="hidden" id="status" value="<%= request.getAttribute("status") %>" />
 <div class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
         <a href="accountList?role=${role}" class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Show All
         </a>
@@ -70,7 +71,15 @@ if (userObj == null) {
                     ${acc.address}
                 </td>
                 <td class="px-6 py-4">
-                    <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline">delete</a>
+                <c:if test="${acc.id != sessionScope.user.id}">
+                
+                    <form action="accountList" method="post">
+                	<input type="hidden" value="${acc.id}" name="acc_id">
+                	<input type="hidden" value="${acc.role }" name="acc_role">
+                	<input type="hidden" value="delete" name="action">
+                    <button type="submit" class="font-medium text-red-600 dark:text-red-500 hover:underline">delete</button>
+                </form>
+                </c:if>
                 </td>
             </tr>
             </c:forEach>
@@ -78,6 +87,19 @@ if (userObj == null) {
     </table>
 </div>
 </div>
+
+<script>
+
+	const status = document.getElementById("status").value;
+	if(status == "deleteSuccess"){
+		swal("Deleted","Account deleted successfully","success");
+	}
+	if(status == "fail"){
+		swal("Sorry","Account delete fail","error");
+	}
+
+</script>
+
 <%@ include file="../../layout/footer.jsp" %>
 
 
