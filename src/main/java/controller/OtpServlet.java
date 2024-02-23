@@ -37,7 +37,7 @@ public class OtpServlet extends HttpServlet {
 		int value=Integer.parseInt( request.getParameter("otp"));
 		
 		
-		String email = (String) mySession.getAttribute("optEmail");
+		String email = (String) mySession.getAttribute("email");
 		
 		Boolean checkOtp = otpDAO.checkOTP(email, value);
 		

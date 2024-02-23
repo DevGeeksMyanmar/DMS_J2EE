@@ -54,7 +54,7 @@ public class TestEmailServlet extends HttpServlet {
 		props.put("mail.smtp.port", "465");
 		Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication("pkkoo239@gmail.com", "dtpy ecgm ygkh wpog");
+				return new PasswordAuthentication("office.ydsmyanmar@gmail.com", "zvyy lreb ilmc lwak");
 			}
 		});
 		

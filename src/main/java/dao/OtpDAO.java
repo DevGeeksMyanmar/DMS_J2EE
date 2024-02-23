@@ -65,7 +65,6 @@ public List<User> get() {
 
 public boolean checkOTP(String email, int otp) {
     boolean otpMatch  = false;
-    System.out.println(email + " "+otp);
     PreparedStatement pstmt = null;
     ResultSet rs = null;
     try {
@@ -103,7 +102,7 @@ public boolean checkOTP(String email, int otp) {
             e.printStackTrace();
         }
     }
-    System.out.println("otpmatch "+ otpMatch);
+    
     return otpMatch;
 }
 public boolean update(Otp user) {
