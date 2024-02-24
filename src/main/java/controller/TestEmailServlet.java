@@ -10,6 +10,7 @@ import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.RequestDispatcher;
@@ -21,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import model.Otp;
+import util.EmailUtility;
 
 /**
  * Servlet implementation class TestEmailServlet
@@ -41,55 +43,40 @@ public class TestEmailServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String email = "wytun8904@gmail.com";
+		String email = "waiyanwoody@gmail.com";
 		String order_id = "3";
 		
 		String to = email;
 		
-		Properties props = new Properties();
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.socketFactory.port", "465");
-		props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.port", "465");
-		Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication("office.ydsmyanmar@gmail.com", "zvyy lreb ilmc lwak");
-			}
-		});
+		String host = "localhost";
+
+		// Get the current port (assuming it's a web application)
+		int port = request.getServerPort(); // Assuming you have access to the request object
+
+		
+		// Construct the base URL
+		String baseURL = "http://" + host + ":" + port + "/DMS/views/shop/order?action=view&orderId="+order_id;
+		
+		String htmlContent = "<html><body>"
+                + "<h2>Driver Assigned to Order</h2>"
+                + "<p>Order ID: " + "1" + "</p>"
+                + "<p>Driver Name: " + "aung ko" + "</p>"
+                + "<p>Driver Phone Number: " + "09950214146" + "</p>"
+                + "<p><a href='" + baseURL + "'>click here to view order</a></p>"
+                + "</body></html>";
 		
 		try {
-			// Get the current hostname
-//			String hostname = InetAddress.getLocalHost().getHostName();
-			String hostname = "localhost";
-
-			// Get the current port (assuming it's a web application)
-			int port = request.getServerPort(); // Assuming you have access to the request object
-
-			
-			// Construct the base URL
-			String baseURL = "http://" + hostname + ":" + port + "/DMS/views/shop/order?action=view&orderId="+order_id;
-			
-			MimeMessage message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(email));
-			message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-			message.setSubject("Update about your order");
-			String htmlContent = "<html><body>"
-                    + "<h2>Driver Assigned to Order</h2>"
-                    + "<p>Order ID: " + "1" + "</p>"
-                    + "<p>Driver Name: " + "aung ko" + "</p>"
-                    + "<p>Driver Phone Number: " + "09950214146" + "</p>"
-                    + "<p><a href='" + baseURL + "'>click here to view order</a></p>"
-                    + "</body></html>";
-			message.setContent(htmlContent, "text/html");
-			Transport.send(message);
-			
+			EmailUtility.sendEmail(email, "Update about your order", htmlContent);
+		} catch (AddressException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-
-		catch (MessagingException e) {
-			throw new RuntimeException(e);
-		}
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
+		
+		response.getWriter().append("Mail send to: "+ email).append(request.getContextPath());
 	}
 
 	/**

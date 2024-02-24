@@ -42,6 +42,8 @@ public class NewPassword extends HttpServlet {
 			boolean passwordUpdated = userDAO.updatePassword(email,hashPassword);
 			
 			if(passwordUpdated) {
+				session.removeAttribute("otpVerified");
+				session.removeAttribute("email");
 				request.setAttribute("status", "passwordChanged");
 				dispatcher = request.getRequestDispatcher("login.jsp");
 				dispatcher.forward(request, response);

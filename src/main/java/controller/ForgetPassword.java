@@ -9,6 +9,7 @@ import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.RequestDispatcher;
@@ -22,6 +23,7 @@ import javax.servlet.http.HttpSession;
 import dao.UserDAO;
 import dao.OtpDAO;
 import model.Otp;
+import util.EmailUtility;
 
 @WebServlet("/views/forgetPassword")
 public class ForgetPassword extends HttpServlet {
@@ -34,7 +36,7 @@ public class ForgetPassword extends HttpServlet {
 		otpDAO = new OtpDAO();
 	}
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher dispatcher = request.getRequestDispatcher("forgetpassword.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("forgetPassword.jsp");
 	    dispatcher.forward(request, response);
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -42,7 +44,7 @@ public class ForgetPassword extends HttpServlet {
 		String email = request.getParameter("email");
 		Boolean emailExit = userDAO.checkEmail(email);
 		
-		RequestDispatcher dispatcher = null;
+		
 		
 		HttpSession mySession = request.getSession();
 
@@ -56,33 +58,35 @@ public class ForgetPassword extends HttpServlet {
 			
 			String to = email;
 			
-			Properties props = new Properties();
-			props.put("mail.smtp.host", "smtp.gmail.com");
-			props.put("mail.smtp.socketFactory.port", "465");
-			props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-			props.put("mail.smtp.auth", "true");
-			props.put("mail.smtp.port", "465");
-			Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
-				protected PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication("office.ydsmyanmar@gmail.com", "zvyy lreb ilmc lwak");
-				}
-			});
+			String host = "localhost";
+
+			// Get the current port (assuming it's a web application)
+			int port = request.getServerPort(); // Assuming you have access to the request object
+
+			
+			// Construct the base URL
+			String baseURL = "http://" + host + ":" + port + "/DMS/views/validateOtp";
+			
+			
+			String htmlContent = "<html><body>"
+	                + "<h2>OTP for Reset Password</h2>"
+	                + "<p>OTP : " + otp + "</p>"
+	                + "<p>for your email : " + email + "</p>"
+	                + "<p>You can also <a href='" + baseURL + "'>click here</a> to fill OTP.</p>"
+	                + "</body></html>";
+			
 			
 			try {
-				MimeMessage message = new MimeMessage(session);
-				message.setFrom(new InternetAddress(email));
-				message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-				message.setSubject("OTP code for reset password");
-				message.setText("your OTP is: " + otp);
-				
-				Transport.send(message);
-				
+				EmailUtility.sendEmail(email, "OTP for reset password", htmlContent);
+			} catch (AddressException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (MessagingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-
-			catch (MessagingException e) {
-				throw new RuntimeException(e);
-			}
-			dispatcher = request.getRequestDispatcher("otp.jsp");
+			
+			RequestDispatcher dispatcher = request.getRequestDispatcher("otp.jsp");
 			request.setAttribute("message","OTP is sent to your email id");
 
 			mySession.setAttribute("email",email); 
@@ -102,7 +106,7 @@ public class ForgetPassword extends HttpServlet {
 		}else {			
 				
 				request.setAttribute("status", "emailNotExit");
-				dispatcher = request.getRequestDispatcher("forgetPassword.jsp");
+				RequestDispatcher dispatcher = request.getRequestDispatcher("forgetPassword.jsp");
 				dispatcher.forward(request, response);
 		}
 

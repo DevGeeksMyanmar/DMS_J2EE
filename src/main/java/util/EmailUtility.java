@@ -19,39 +19,39 @@ import javax.mail.internet.MimeMessage;
  *
  */
 public class EmailUtility {
-    public static void sendEmail(String host, String port,
-            final String userName, final String password, String toAddress,
-            String subject, String message) throws AddressException,
+    public static void sendEmail(
+            String toEmail,
+            String subject, 
+            String htmlContent
+            ) throws AddressException,
             MessagingException {
  
-        // sets SMTP server properties
-        Properties properties = new Properties();
-        properties.put("mail.smtp.host", host);
-        properties.put("mail.smtp.port", port);
-        properties.put("mail.smtp.auth", "true");
-        properties.put("mail.smtp.starttls.enable", "true");
- 
-        // creates a new session with an authenticator
-        Authenticator auth = new Authenticator() {
-            public PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(userName, password);
-            }
-        };
- 
-        Session session = Session.getInstance(properties, auth);
- 
-        // creates a new e-mail message
-        Message msg = new MimeMessage(session);
- 
-        msg.setFrom(new InternetAddress(userName));
-        InternetAddress[] toAddresses = { new InternetAddress(toAddress) };
-        msg.setRecipients(Message.RecipientType.TO, toAddresses);
-        msg.setSubject(subject);
-        msg.setSentDate(new Date());
-        msg.setText(message);
- 
-        // sends the e-mail
-        Transport.send(msg);
+    	Properties props = new Properties();
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.socketFactory.port", "465");
+		props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.port", "465");
+		Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication("office.ydsmyanmar@gmail.com", "zvyy lreb ilmc lwak");
+			}
+		});
+		
+		try {
+			
+			MimeMessage message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(toEmail));
+			message.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
+			message.setSubject(subject);
+			message.setContent(htmlContent, "text/html");
+			Transport.send(message);
+			
+		}
+
+		catch (MessagingException e) {
+			throw new RuntimeException(e);
+		}
  
     }
 }

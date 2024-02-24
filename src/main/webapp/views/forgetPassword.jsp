@@ -2,6 +2,7 @@
 <%@ include file="../layout/topNav.jsp" %>
 
 <div class="max-w-sm mx-auto mt-10 md:mt-20 p-5 bg-white shadow rounded-xl">
+
 <input type="hidden" id="status" value="<%= request.getAttribute("status") %>" />
 	<h2 class="text-2xl font-semibold mb-1 text-zinc-800">Forgot your password?</h2>
 	<p class="text-sm text-zincc-600">Change your password in three easy steps. This will help you to secure your password!</p>
