@@ -134,8 +134,23 @@ public boolean changeStatus(String id ,String status) {
 	}
 
 
+//assign order to driver
+public boolean assignDriver(int id,int driver_id) {
+	Boolean flag = false;
+    try {
+        String sql = "UPDATE Orders SET order_status='assigned', driver_id=? where id = ?";
+        connection = DBConnection.openConnection();
+        preparedStatement = connection.prepareStatement(sql);
 
-
+        preparedStatement.setInt(1, driver_id);
+        preparedStatement.setInt(2, id);
+        int rowUpdated = preparedStatement.executeUpdate();
+        if (rowUpdated>0) flag = true;
+    }catch (SQLException ex) {
+        ex.printStackTrace();
+    } 
+    return flag ;
+}
 
 //get order list for shop
 public List<Order> get(int user_id, String searchKey, String orderStatus) {
@@ -226,6 +241,95 @@ public Order get(String order_id) {
     return order;
 }
 
+//get driver info by order id
+
+public User getDriver(int order_id) {
+  User user = new User();
+
+  try {
+  	String sql = "SELECT orders.*,users.* from \r\n"
+  			+ "orders left join users on \r\n"
+  			+ "users.id = orders.driver_id\r\n"
+  			+ "where orders.id = ?";
+      connection = DBConnection.openConnection();
+      preparedStatement = connection.prepareStatement(sql);
+      preparedStatement.setInt(1, order_id);
+      resultSet = preparedStatement.executeQuery(); 
+
+      // Move the cursor to the first row (if exists)
+      if (resultSet.next()) {
+    	  user.setId(resultSet.getInt("id"));
+      	user.setName( resultSet.getString("name"));
+      	user.setEmail( resultSet.getString("email"));
+      	user.setPhone( resultSet.getString("phone"));
+      	user.setRole( resultSet.getString("role"));
+      	user.setAddress(resultSet.getString("address"));
+      }
+  } catch(SQLException e) {
+      e.printStackTrace();
+  } finally {
+      // Close resources properly in the finally block
+      // Ensure that connections, statements, and result sets are properly closed
+      try {
+          if (resultSet != null) {
+              resultSet.close();
+          }
+          if (preparedStatement != null) {
+              preparedStatement.close();
+          }
+          if (connection != null) {
+              connection.close();
+          }
+      } catch (SQLException ex) {
+          ex.printStackTrace();
+      }
+  }
+  return user;
+}
+
+public User getShop(int order_id) {
+	  User user = new User();
+
+	  try {
+	  	String sql = "SELECT orders.*,users.* from \r\n"
+	  			+ "orders left join users on \r\n"
+	  			+ "users.id = orders.user_id\r\n"
+	  			+ "where orders.id = ?";
+	      connection = DBConnection.openConnection();
+	      preparedStatement = connection.prepareStatement(sql);
+	      preparedStatement.setInt(1, order_id);
+	      resultSet = preparedStatement.executeQuery(); 
+
+	      // Move the cursor to the first row (if exists)
+	      if (resultSet.next()) {
+	    	  user.setId(resultSet.getInt("id"));
+	      	user.setName( resultSet.getString("name"));
+	      	user.setEmail( resultSet.getString("email"));
+	      	user.setPhone( resultSet.getString("phone"));
+	      	user.setRole( resultSet.getString("role"));
+	      	user.setAddress(resultSet.getString("address"));
+	      }
+	  } catch(SQLException e) {
+	      e.printStackTrace();
+	  } finally {
+	      // Close resources properly in the finally block
+	      // Ensure that connections, statements, and result sets are properly closed
+	      try {
+	          if (resultSet != null) {
+	              resultSet.close();
+	          }
+	          if (preparedStatement != null) {
+	              preparedStatement.close();
+	          }
+	          if (connection != null) {
+	              connection.close();
+	          }
+	      } catch (SQLException ex) {
+	          ex.printStackTrace();
+	      }
+	  }
+	  return user;
+	}
 
 }
 
