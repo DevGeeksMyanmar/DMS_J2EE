@@ -132,12 +132,14 @@ public class AdminHomeController extends HttpServlet {
 		// Construct the base URL
 		
 		
+		StringBuilder ordersStringBuilder = new StringBuilder();	
 		
         // Assign driver to each selected order item
         for (int i = 0; i < selectedItemsArray.size(); i++) {
             
         	int orderId = selectedItemsArray.get(i).getAsInt();
         	
+        	ordersStringBuilder.append(orderId).append(" , ");
         	// Assuming you have a method like assignDriverToOrderItem that assigns the driver to the order item
             if (!orderDAO.assignDriver(orderId,driverId)) {
                 // If assigning driver to order item fails, set success to false
@@ -145,35 +147,10 @@ public class AdminHomeController extends HttpServlet {
                 break; // Break the loop if any assignment fails
             }
         	
-        	User driver = orderDAO.getDriver(orderId);
-        	User shop = orderDAO.getShop(orderId);
         	
-        	
-        	
-            String shop_email = shop.getEmail();
-            
-            String baseURL = "http://" + host + ":" + port + "/DMS/views/shop/order?action=view&orderId="+orderId;
-            
-            String htmlContent = "<html><body>"
-                    + "<h2>Driver Assigned to Order</h2>"
-                    + "<p>Order ID: " + orderId + "</p>"
-                    + "<p>Driver Name: " + driver.getName() + "</p>"
-                    + "<p>Driver Phone Number: " + driver.getPhone() + "</p>"
-                    + "<p><a href='" + baseURL + "'>click here to view order</a></p>"
-                    + "</body></html>";
-            
-            
-            //send email to each order owner shops
-            try {
-    			EmailUtility.sendEmail(shop_email, "Update about your order", htmlContent);
-    		} catch (AddressException e) {
-    			// TODO Auto-generated catch block
-    			e.printStackTrace();
-    		} catch (MessagingException e) {
-    			// TODO Auto-generated catch block
-    			e.printStackTrace();
-    		}
         }
+        
+        String ordersString = ordersStringBuilder.toString();
         
         response.setContentType("text/plain");
         response.setCharacterEncoding("UTF-8");
@@ -185,6 +162,31 @@ public class AdminHomeController extends HttpServlet {
             out.write("fail");
         }
         out.flush();
+        
+        UserDAO userDAO = new UserDAO();
+        User driver = userDAO.get(driverId);
+        
+        String driver_email = driver.getEmail();
+        
+//        selectedItemsArray
+        
+        String htmlContent = "<html><body>"
+                + "<h2>Order received</h2>"
+                + "<p>Hello you received orders to deliver.</p>"
+                + "<p>Order ID: " + ordersString + "</p>"
+                + "</body></html>";
+        
+        
+        //send email to each order owner shops
+        try {
+			EmailUtility.sendEmail(driver_email, "Order received to deliver", htmlContent);
+		} catch (AddressException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
      
     }
 

@@ -21,6 +21,7 @@ let selectedItems = [];
 	    })	    
 	    
 	    document.getElementById("checkbox-all-search").addEventListener("change", (e)=> {
+		selectedItems = [];
         const checkboxes = document.querySelectorAll('.order-checkbox'); 
         const isSelectedAll = e.target.checked; 
 
@@ -28,7 +29,7 @@ let selectedItems = [];
             checkbox.checked = isSelectedAll; 
             const orderId = checkbox.dataset.orderId;
             updateSelectedItems(orderId, isSelectedAll); 
-
+			
    });
 });
 let driverId;
@@ -51,6 +52,12 @@ btn_submit.addEventListener("click",()=> {
 	selectedItems.length = 0;
 })
 
+function showSpinner(){
+	document.querySelector("#btn-assign").classList.add('hidden');
+	document.querySelector("#btn-spin").classList.remove('hidden');
+}
+
+
 function sendDataToServlet(driverId,selectedItems) {
     
     // Define the data you want to send
@@ -71,8 +78,13 @@ function sendDataToServlet(driverId,selectedItems) {
         body: jsonData
     };
 
+
+	//loading true
+	showSpinner();
+	
     // Make the fetch request
     fetch('home', fetchOptions)
+		
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -80,6 +92,7 @@ function sendDataToServlet(driverId,selectedItems) {
             return response.text(); // Assuming you're expecting a text response
         })
         .then(data => {
+	
             if(data == "ordered"){
                 swal("Success","Order assigned to driver successfully","success")
                 .then((result) => {
@@ -93,6 +106,7 @@ function sendDataToServlet(driverId,selectedItems) {
               swal("Sorry","Assigned fail.","error");
              
             }
+			//loading false
         })
         .catch(error => {
             console.error('There was a problem with your fetch operation:', error);

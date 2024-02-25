@@ -98,6 +98,49 @@ public List<Order> get( String searchKey, String orderStatus , String township) 
     return list;
 }
 
+//get order list for driver 
+public List<Order> getDriverOrder(int driver_id, String searchKey, String orderStatus, String township) {
+    List<Order> list = new ArrayList<>();
+    Order order = null;
+
+    try {
+        String sql = "SELECT orders.*, customer.*, users.name as shop_name " +
+                     "FROM orders " +
+                     "LEFT JOIN customer ON customer.id = orders.customer_id " +
+                     "LEFT JOIN users ON users.id = orders.user_id AND users.role = 'shop' " +
+                     "WHERE (customer.customer_name LIKE ? OR users.name LIKE ?) " +
+                     "AND orders.order_status LIKE ? " +
+                     "AND customer.township LIKE ? " +
+                     "AND orders.driver_id = ?";
+        connection = DBConnection.openConnection();
+        preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, "%" + searchKey + "%");
+        preparedStatement.setString(2, "%" + searchKey + "%");
+        preparedStatement.setString(3, "%" + orderStatus + "%");
+        preparedStatement.setString(4, "%" + township + "%");
+        preparedStatement.setInt(5, driver_id);
+        resultSet = preparedStatement.executeQuery(); 	
+        while(resultSet.next()) {
+            order = new Order();
+            order.setId(resultSet.getInt("id"));
+            order.setCustomer_name(resultSet.getString("customer_name"));
+            order.setCustomer_city(resultSet.getString("city"));
+            order.setCustomer_township(resultSet.getString("township"));
+            order.setShop_name(resultSet.getString("shop_name"));
+            order.setOrder_status(resultSet.getString("order_status"));
+            order.setCreated_at(resultSet.getTimestamp("created_at"));
+            order.setUpdated_at(resultSet.getTimestamp("updated_at"));
+            list.add(order);
+        }
+    } catch(SQLException e) {
+        e.printStackTrace();
+    } finally {
+        // Close your database resources here
+    }
+    return list;
+}
+
+
 public boolean delete(String id) {
 	
 	boolean flag = false;

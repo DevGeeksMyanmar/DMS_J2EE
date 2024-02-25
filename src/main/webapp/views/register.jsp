@@ -62,7 +62,7 @@
 	    	}else if("shop".equals(user.getRole())){
 	    		response.sendRedirect("/DMS/views/shop/home");
 	    	}else if("driver".equals(user.getRole())){
-	    		response.sendRedirect("/DMS/views/driver/home.jsp");
+	    		response.sendRedirect("/DMS/views/driver/home");
 	    	}
 	    	 
 	    }
