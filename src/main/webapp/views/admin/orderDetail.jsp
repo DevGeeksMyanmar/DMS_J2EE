@@ -51,6 +51,7 @@ Back</a>
 			%>
 			<p class="font-normal text-gray-700 dark:text-gray-400">Created At : <span class="font-semibold text-zinc-800"><%= formattedCreatedDate %></span></p>	
 			<p class="font-normal text-gray-700 dark:text-gray-400">Shop : <span class="font-semibold text-zinc-800"><%= order.getShop_name() %></span></p>
+		    <p class="font-normal text-gray-700 dark:text-gray-400">Shop Address : <span class="font-semibold text-zinc-800"><%= order.getShop_address() %> </span></p>
 			<p class="font-normal text-gray-700 dark:text-gray-400">Driver : <span class="font-semibold text-zinc-800"><%= (order.getDriver_name() != null) ? order.getDriver_name() : "Not assigned" %></span></p>
 			<p class="font-normal text-gray-700 dark:text-gray-400">Order Status : <span class="font-semibold text-zinc-800"><%= order.getOrder_status() %></span></p>
 		</div>

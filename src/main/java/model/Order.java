@@ -18,6 +18,7 @@ public class Order implements Serializable {
     private String shop_name;
     private Timestamp created_at;
     private Timestamp updated_at;
+    private String shop_address;
     
 	public int getId() {
 		return id;
@@ -90,6 +91,12 @@ public class Order implements Serializable {
 	}
 	public void setUpdated_at(Timestamp updated_at) {
 		this.updated_at = updated_at;
+	}
+	public String getShop_address() {
+		return shop_address;
+	}
+	public void setShop_address(String shop_address) {
+		this.shop_address = shop_address;
 	}
     
 }

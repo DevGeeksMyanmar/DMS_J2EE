@@ -9,9 +9,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import controller.Hash;
+import controller.auth.Hash;
 import model.Otp;
-import model.Student;
 import model.User;
 import util.DBConnection;
 

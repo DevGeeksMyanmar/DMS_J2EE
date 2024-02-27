@@ -71,7 +71,7 @@ btn_submit.addEventListener("click",()=> {
 
 	cusName.value="";
 	cusPhone.value= "";
-	cusCity.value="";
+	cusCity.value="Yangon";
 	cusTownship.value="";
 	cusDetailAddress.value="";
 	orderItems = [];

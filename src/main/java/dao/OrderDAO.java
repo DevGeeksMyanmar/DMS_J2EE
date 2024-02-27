@@ -10,7 +10,6 @@ import java.util.List;
 import model.Customer;
 import model.Order;
 import model.OrderItem;
-import model.Student;
 import model.User;
 import util.DBConnection;
 
@@ -65,19 +64,37 @@ public List<Order> get( String searchKey, String orderStatus , String township) 
 
     try {
         list = new ArrayList<>();
-        String sql = "SELECT orders.*, customer.*, "
-                + "driver.name AS driver_name, shop.name AS shop_name "
-                + "FROM orders "
-                + "LEFT JOIN customer ON customer.id = orders.customer_id "
-                + "LEFT JOIN users AS driver ON driver.id = orders.driver_id AND driver.role = 'driver' "
-                + "LEFT JOIN users AS shop ON shop.id = orders.user_id AND shop.role = 'shop' "
-                + "WHERE (customer.customer_name LIKE ? OR shop.name LIKE ?)  AND orders.order_status LIKE ? AND customer.township LIKE ?";
+        String sql ;
+        if(township == "") {
+        	
+        	sql = "SELECT orders.*, customer.*, "
+                    + "driver.name AS driver_name, shop.name AS shop_name "
+                    + "FROM orders "
+                    + "LEFT JOIN customer ON customer.id = orders.customer_id "
+                    + "LEFT JOIN users AS driver ON driver.id = orders.driver_id AND driver.role = 'driver' "
+                    + "LEFT JOIN users AS shop ON shop.id = orders.user_id AND shop.role = 'shop' "
+                    + "WHERE (customer.customer_name LIKE ? OR shop.name LIKE ?)  AND orders.order_status LIKE ? AND customer.township LIKE ?";
+        }else {
+        	sql = "SELECT orders.*, customer.*, "
+                    + "driver.name AS driver_name, shop.name AS shop_name "
+                    + "FROM orders "
+                    + "LEFT JOIN customer ON customer.id = orders.customer_id "
+                    + "LEFT JOIN users AS driver ON driver.id = orders.driver_id AND driver.role = 'driver' "
+                    + "LEFT JOIN users AS shop ON shop.id = orders.user_id AND shop.role = 'shop' "
+                    + "WHERE (customer.customer_name LIKE ? OR shop.name LIKE ?)  AND orders.order_status LIKE ? AND customer.township = ?";
+            
+        }
         connection = DBConnection.openConnection();
         preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, "%" + searchKey + "%");
         preparedStatement.setString(2, "%" + searchKey + "%");
         preparedStatement.setString(3, "%" + orderStatus + "%");
-        preparedStatement.setString(4, "%" + township + "%");
+        if(township == "") {
+        	preparedStatement.setString(4,"%" + township + "%");
+        }else {
+        	preparedStatement.setString(4,township);
+        }
+        
         resultSet = preparedStatement.executeQuery(); 	
         while(resultSet.next()) {
             order = new Order();
@@ -104,20 +121,38 @@ public List<Order> getDriverOrder(int driver_id, String searchKey, String orderS
     Order order = null;
 
     try {
-        String sql = "SELECT orders.*, customer.*, users.name as shop_name " +
-                     "FROM orders " +
-                     "LEFT JOIN customer ON customer.id = orders.customer_id " +
-                     "LEFT JOIN users ON users.id = orders.user_id AND users.role = 'shop' " +
-                     "WHERE (customer.customer_name LIKE ? OR users.name LIKE ?) " +
-                     "AND orders.order_status LIKE ? " +
-                     "AND customer.township LIKE ? " +
-                     "AND orders.driver_id = ?";
+    	
+    	String sql ;
+    	if(township == "") {
+    		sql = "SELECT orders.*, customer.*, users.name as shop_name " +
+                    "FROM orders " +
+                    "LEFT JOIN customer ON customer.id = orders.customer_id " +
+                    "LEFT JOIN users ON users.id = orders.user_id AND users.role = 'shop' " +
+                    "WHERE (customer.customer_name LIKE ? OR users.name LIKE ?) " +
+                    "AND orders.order_status LIKE ? " +
+                    "AND customer.township LIKE ? " +
+                    "AND orders.driver_id = ?";
+    	}else {
+    		sql = "SELECT orders.*, customer.*, users.name as shop_name " +
+                    "FROM orders " +
+                    "LEFT JOIN customer ON customer.id = orders.customer_id " +
+                    "LEFT JOIN users ON users.id = orders.user_id AND users.role = 'shop' " +
+                    "WHERE (customer.customer_name LIKE ? OR users.name LIKE ?) " +
+                    "AND orders.order_status LIKE ? " +
+                    "AND customer.township = ? " +
+                    "AND orders.driver_id = ?";
+    	}
+        
         connection = DBConnection.openConnection();
         preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, "%" + searchKey + "%");
         preparedStatement.setString(2, "%" + searchKey + "%");
         preparedStatement.setString(3, "%" + orderStatus + "%");
-        preparedStatement.setString(4, "%" + township + "%");
+        if(township == "") {
+        	preparedStatement.setString(4,"%" + township + "%");
+        }else {
+        	preparedStatement.setString(4,township);
+        }
         preparedStatement.setInt(5, driver_id);
         resultSet = preparedStatement.executeQuery(); 	
         while(resultSet.next()) {
@@ -161,7 +196,7 @@ public boolean changeStatus(String id ,String status) {
 	
 	boolean flag = false;
 	   try {
-	   String sql = "UPDATE SET order_status = ? where id = ?";
+	   String sql = "UPDATE orders SET order_status = ? where id = ?";
 	   connection = DBConnection.openConnection();
 		preparedStatement = connection.prepareStatement(sql);
 		
@@ -194,6 +229,7 @@ public boolean assignDriver(int id,int driver_id) {
     } 
     return flag ;
 }
+
 
 //get order list for shop
 public List<Order> get(int user_id, String searchKey, String orderStatus) {
@@ -239,7 +275,7 @@ public Order get(String order_id) {
 
     try {
     	String sql = "SELECT orders.*, customer.customer_name, "
-                + "driver.name AS driver_name, shop.name AS shop_name "
+                + "driver.name AS driver_name, shop.name AS shop_name , shop.address as shop_address "
                 + "FROM orders "
                 + "LEFT JOIN customer ON customer.id = orders.customer_id "
                 + "LEFT JOIN users AS driver ON driver.id = orders.driver_id AND driver.role = 'driver' "
@@ -257,6 +293,7 @@ public Order get(String order_id) {
         	order.setDriver_id(resultSet.getInt("driver_id"));
             order.setCustomer_name(resultSet.getString("customer_name"));
             order.setShop_name(resultSet.getString("shop_name"));
+            order.setShop_address(resultSet.getString("shop_address"));
             order.setDriver_name(resultSet.getString("driver_name"));
             order.setOrder_status(resultSet.getString("order_status"));
             order.setCreated_at(resultSet.getTimestamp("created_at"));
@@ -373,6 +410,48 @@ public User getShop(int order_id) {
 	  }
 	  return user;
 	}
+
+public boolean checkUser(int id , int orderId) {
+    boolean isValid = false;
+
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+    try {
+        // Establish the connection
+        connection = DBConnection.openConnection();
+
+        // Prepare the statement
+        String sql = "SELECT COUNT(*) FROM orders " +
+                     "WHERE (user_id = ? OR driver_id = ?) AND id = ?";
+        pstmt = connection.prepareStatement(sql);
+        pstmt.setInt(1, id);
+        pstmt.setInt(2, id);
+        pstmt.setInt(3, orderId);
+
+        // Execute the query
+        rs = pstmt.executeQuery();
+
+        // Process the result set
+        if (rs.next()) {
+            int count = rs.getInt(1);
+            isValid = count > 0;
+        }
+    } catch (SQLException e) {
+        // Handle the exception
+        e.printStackTrace();
+    } finally {
+        // Close the resources
+        try {
+            if (rs != null) rs.close();
+            if (pstmt != null) pstmt.close();
+            if (connection != null) connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    return isValid;
+}
+
 
 }
 

@@ -42,15 +42,28 @@ if (userObj == null) {
 		    <div class="mb-4">
 		        <label for="cusCity" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Customer City</label>
 		        <select name="cusCity" id="cusCity" class="mb-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-				  <option value="" disabled selected>Choose City</option>
-				  <option value="yangon">Yangon</option>
-				  <option value="bago">Bago</option>
+				  <option selected value="Yangon">Yangon</option>
 				</select>
 				<label for="cusTownship" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Customer Township</label>
 				<select name="cusTownship" id="cusTownship" class="mb-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-				  <option value="" disabled selected>Choose Town Ship</option>
-				  <option value="south dagon">South Dagon</option>
-				  <option value="shwe pyi thar">Shwe Pyi Thar</option>
+				    <option value="" disabled selected>Select Customer Town Ship</option>
+				    <option value="Ahlon">Ahlon</option>
+				    <option value="Bahan">Bahan</option>
+				    <option value="Dagon">Dagon</option>
+				    <option value="Hlaing">Hlaing</option>
+				    <option value="Insein">Insein</option>
+				    <option value="Kamayut">Kamayut</option>
+				    <option value="Kyauktada">Kyauktada</option>
+				    <option value="Lanmadaw">Lanmadaw</option>
+				    <option value="Latha">Latha</option>
+				    <option value="Mayangon">Mayangon</option>
+				    <option value="Mingala Taungnyunt">Mingala Taungnyunt</option>
+				    <option value="North Dagon">North Dagon</option>
+				    <option value="Pabedan">Pabedan</option>
+				    <option value="Sanchaung">Sanchaung</option>
+				    <option value="South Dagon">South Dagon</option>
+				    <option value="Thingangyun">Thingangyun</option>
+				    <option value="Yankin">Yankin</option>
 				</select>		
 				<label for="cusDetailAddress" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Customer Detail Address</label>
 				<textarea id="cusDetailAddress" name="cusDetailAddress" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter customer detail address"></textarea>			
